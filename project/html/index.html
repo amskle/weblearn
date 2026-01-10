@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中华文物数字保护平台 | Digital Heritage Protection</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="../js/tail.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="../js/chart.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Google Fonts (Noto Serif SC for headings, Noto Sans SC for body) -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet"> -->
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        heritage: {
+                            bg: '#f9f7f2',       /* Warm Rice Paper */
+                            primary: '#8c4b31',  /* Terracotta/Bronze */
+                            secondary: '#2c3e50',/* Charcoal/Ink */
+                            accent: '#d4af37',   /* Muted Gold */
+                            text: '#4a4a4a',     /* Dark Grey Text */
+                            card: '#ffffff'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Noto Serif SC"', 'serif'],
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-heritage-bg text-heritage-text font-sans antialiased overflow-x-hidden selection:bg-heritage-primary selection:text-white">
+
+    <!-- REQUIRED PLACEHOLDERS -->
+    <!-- Chosen Palette: Warm Heritage. -->
+    
+    <!-- Application Structure Plan:
+         Updated to include Gemini AI integrations:
+         1. **Navigation & Home:** Standard navigation and dashboard overview.
+         2. **Museum (AI Enhanced):** Grid of artifacts. Clicking opens a Modal. The Modal now features a "Gemini AI Guide" button that generates a dynamic story about the artifact.
+         3. **News:** Dynamic feed.
+         4. **Technology (AI Enhanced):** Contains a new interactive "AI Restoration Consultant" chat interface powered by Gemini to answer user questions about preservation techniques.
+         5. **Contact:** Standard form.
+    -->
+
+    <!-- Visualization & Content Choices:
+         ... Standard charts preserved ...
+         **Gemini Integration:**
+         - **AI Guide:** Uses Gemini to generate text based on artifact name context.
+         - **Restoration Chat:** Uses Gemini to answer free-form text queries.
+         CONFIRMATION: NO SVG graphics used (Tailwind/Unicode used). NO Mermaid JS used.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-stone-200">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center cursor-pointer" onclick="navigateTo('home')">
+                    <span class="text-3xl mr-2">🏛️</span>
+                    <div>
+                        <h1 class="font-serif text-2xl font-bold text-heritage-secondary tracking-wide">云端博物</h1>
+                        <p class="text-xs text-heritage-primary tracking-widest uppercase">Digital Heritage Guard</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="navigateTo('home')" class="nav-btn text-heritage-secondary hover:text-heritage-primary font-medium transition-colors border-b-2 border-transparent hover:border-heritage-primary pb-1">首页概览</button>
+                    <button onclick="navigateTo('museum')" class="nav-btn text-heritage-secondary hover:text-heritage-primary font-medium transition-colors border-b-2 border-transparent hover:border-heritage-primary pb-1">文物详情</button>
+                    <button onclick="navigateTo('news')" class="nav-btn text-heritage-secondary hover:text-heritage-primary font-medium transition-colors border-b-2 border-transparent hover:border-heritage-primary pb-1">新闻动态</button>
+                    <button onclick="navigateTo('tech')" class="nav-btn text-heritage-secondary hover:text-heritage-primary font-medium transition-colors border-b-2 border-transparent hover:border-heritage-primary pb-1">前沿技术</button>
+                    <button onclick="navigateTo('contact')" class="nav-btn px-4 py-2 bg-heritage-primary text-white rounded hover:bg-opacity-90 transition-all shadow-md">联系我们</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-heritage-secondary focus:outline-none">
+                        <span class="text-2xl">☰</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-100 p-4 shadow-lg">
+            <div class="flex flex-col space-y-4">
+                <button onclick="navigateTo('home')" class="text-left text-heritage-secondary font-medium">首页概览</button>
+                <button onclick="navigateTo('museum')" class="text-left text-heritage-secondary font-medium">文物详情</button>
+                <button onclick="navigateTo('news')" class="text-left text-heritage-secondary font-medium">新闻动态</button>
+                <button onclick="navigateTo('tech')" class="text-left text-heritage-secondary font-medium">前沿技术</button>
+                <button onclick="navigateTo('contact')" class="text-left text-heritage-primary font-bold">联系我们</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main id="app-content" class="min-h-screen">
+        
+        <!-- SECTION: HOME / OVERVIEW -->
+        <section id="home" class="page-section fade-in">
+            <!-- Hero Banner -->
+            <div class="relative w-full h-[60vh] flex items-center justify-center bg-stone-800 text-white overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1599827059754-08eb4c130ba8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Ancient Architecture" class="absolute inset-0 w-full h-full object-cover opacity-40">
+                <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+                    <h2 class="font-serif text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">守护历史，传承文明</h2>
+                    <p class="text-lg md:text-xl text-stone-200 mb-8 max-w-2xl mx-auto leading-relaxed">
+                        每一件文物都是历史的见证。我们致力于利用现代科技手段，数字化保存、修复和展示中华文明的瑰宝，让千年文化触手可及。
+                    </p>
+                    <button onclick="navigateTo('museum')" class="px-8 py-3 bg-heritage-primary hover:bg-orange-800 text-white font-semibold rounded-sm transition-all shadow-lg transform hover:-translate-y-1">
+                        探索数字馆藏
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Dashboard -->
+            <div class="container mx-auto px-4 py-16">
+                <div class="mb-12 text-center">
+                    <h3 class="font-serif text-3xl font-bold text-heritage-secondary mb-4">当前保护概况</h3>
+                    <p class="text-stone-600 max-w-2xl mx-auto">
+                        通过对全国重点文物的普查与数字化建档，我们不仅掌握了文物的现状，更通过数据分析制定了更精准的修复计划。以下是目前的馆藏与修复进度概览。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                    <!-- Text Stats -->
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-heritage-primary">
+                            <div class="text-4xl font-bold text-heritage-primary mb-2">5,200+</div>
+                            <div class="text-sm text-stone-500 font-medium">已建档文物</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-heritage-accent">
+                            <div class="text-4xl font-bold text-heritage-accent mb-2">128</div>
+                            <div class="text-sm text-stone-500 font-medium">正在修复</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-heritage-secondary">
+                            <div class="text-4xl font-bold text-heritage-secondary mb-2">98%</div>
+                            <div class="text-sm text-stone-500 font-medium">完好保存率</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-stone-400">
+                            <div class="text-4xl font-bold text-stone-600 mb-2">350万</div>
+                            <div class="text-sm text-stone-500 font-medium">线上访问人次</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="font-serif text-lg font-bold text-heritage-secondary mb-4 text-center">文物完好度与修复需求分布</h4>
+                        <div class="chart-container">
+                            <canvas id="preservationChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-stone-400 mt-2">数据来源：2025年度文物普查报告</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: MUSEUM / ARTIFACTS -->
+        <section id="museum" class="page-section hidden fade-in py-12 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-heritage-secondary mb-4">文物详情 · 数字博物馆</h2>
+                    <p class="text-stone-600 max-w-3xl mx-auto">
+                        在这里，您可以近距离观察稀世珍宝。我们利用高精度摄影与三维建模技术，还原了文物的每一个细节。点击卡片可查看文物的发掘历史与修复记录。
+                    </p>
+                    
+                    <!-- Filters -->
+                    <div class="flex flex-wrap justify-center gap-4 mt-8">
+                        <button onclick="filterArtifacts('all')" class="filter-btn active px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="all">全部</button>
+                        <button onclick="filterArtifacts('bronze')" class="filter-btn px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="bronze">青铜器</button>
+                        <button onclick="filterArtifacts('ceramics')" class="filter-btn px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="ceramics">陶瓷</button>
+                        <button onclick="filterArtifacts('painting')" class="filter-btn px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="painting">书画</button>
+                        <button onclick="filterArtifacts('jade')" class="filter-btn px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="jade">玉器</button>
+                    </div>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div id="artifact-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Artifact Cards will be injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: NEWS -->
+        <section id="news" class="page-section hidden fade-in py-12">
+            <div class="container mx-auto px-4 max-w-5xl">
+                <div class="mb-10 border-b border-stone-300 pb-4">
+                    <h2 class="font-serif text-3xl font-bold text-heritage-secondary">最近的新闻动态</h2>
+                    <p class="text-stone-600 mt-2">关注文物保护领域的最新发现、政策解读与学术交流。</p>
+                </div>
+
+                <div id="news-container" class="space-y-6">
+                    <!-- News Items Injected JS -->
+                </div>
+                
+                <div class="text-center mt-10">
+                    <button class="text-heritage-primary font-medium hover:underline cursor-pointer">查看更多历史新闻 &rarr;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: TECHNOLOGY -->
+        <section id="tech" class="page-section hidden fade-in py-12 bg-stone-100">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="font-serif text-3xl font-bold text-heritage-secondary mb-4">科技赋能 · 文物新生</h2>
+                    <p class="text-stone-600 max-w-3xl mx-auto">
+                        现代科技正在改变文物保护的方式。从AI识别碎片拼接，到环境监测传感器，科学技术大大提高了修复效率与文物的安全性。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <!-- Feature List & Chart -->
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-start space-x-4">
+                            <div class="bg-heritage-primary text-white p-3 rounded-full text-xl shrink-0">📡</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-heritage-secondary">LiDAR 激光雷达扫描</h4>
+                                <p class="text-sm text-stone-600 mt-1">对石窟、古建筑进行毫米级三维建模，为数字化存档和虚拟修复提供精确的基础数据。</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-start space-x-4">
+                            <div class="bg-heritage-primary text-white p-3 rounded-full text-xl shrink-0">🧬</div>
+                            <div>
+                                <h4 class="font-bold text-lg text-heritage-secondary">多光谱成像分析</h4>
+                                <p class="text-sm text-stone-600 mt-1">透过表面污渍查看肉眼不可见的墨迹或颜料层，用于古书画的无损检测与真伪鉴定。</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Tech Chart -->
+                        <div class="bg-white p-8 rounded-xl shadow-lg mt-6">
+                            <h4 class="font-serif text-lg font-bold text-heritage-secondary mb-6 text-center">传统修复 vs AI辅助修复 效率对比</h4>
+                            <div class="chart-container">
+                                <canvas id="techChart"></canvas>
+                            </div>
+                            <div class="mt-4 p-4 bg-yellow-50 rounded text-sm text-yellow-800 border border-yellow-100">
+                                <strong>分析结论：</strong> 引入AI辅助技术后，特别是在碎片拼接和色彩还原环节，平均工时减少了约45%。
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gemini AI Integration: Restoration Consultant -->
+                    <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-purple-100 relative">
+                         <!-- Decorative gradient background -->
+                        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-heritage-primary"></div>
+                        
+                        <div class="p-8">
+                            <div class="flex items-center mb-6">
+                                <div class="bg-purple-100 p-3 rounded-full mr-4 text-2xl">✨</div>
+                                <div>
+                                    <h3 class="font-serif text-2xl font-bold text-heritage-secondary">AI 修复顾问</h3>
+                                    <p class="text-xs text-purple-600 font-medium">Powered by Gemini AI</p>
+                                </div>
+                            </div>
+                            
+                            <p class="text-stone-600 text-sm mb-6">
+                                遇到文物保护难题？我是您的智能助手。无论是关于青铜器除锈、字画防潮，还是陶瓷拼接，我都能为您解答。
+                            </p>
+
+                            <div class="mb-4">
+                                <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">您的问题</label>
+                                <textarea id="ai-tech-input" rows="3" class="w-full px-4 py-3 rounded bg-stone-50 border border-stone-200 focus:border-purple-500 focus:outline-none transition-colors" placeholder="例如：古代字画发黄了应该如何处理？"></textarea>
+                            </div>
+                            
+                            <button onclick="askRestorationAI()" id="ai-tech-btn" class="w-full bg-gradient-to-r from-heritage-secondary to-purple-800 text-white font-bold py-3 px-6 rounded hover:opacity-90 transition-all shadow-md flex justify-center items-center">
+                                <span>开始咨询</span>
+                            </button>
+
+                            <!-- AI Output Area -->
+                            <div id="ai-tech-output" class="hidden mt-6 bg-purple-50 p-5 rounded-lg border border-purple-100 text-sm text-stone-700 leading-relaxed relative">
+                                <!-- Content injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: CONTACT -->
+        <section id="contact" class="page-section hidden fade-in py-12">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
+                    <!-- Info Side -->
+                    <div class="bg-heritage-secondary text-white p-10 md:w-1/3 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-serif text-2xl font-bold mb-6">联系我们</h3>
+                            <p class="text-stone-300 text-sm mb-8">无论是文物捐赠咨询、学术合作，还是志愿服务申请，我们都期待您的声音。</p>
+                            
+                            <div class="space-y-4 text-sm">
+                                <div class="flex items-center">
+                                    <span class="mr-3">📍</span>
+                                    <span>北京市东城区文博路8号</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="mr-3">📧</span>
+                                    <span>contact@digitalheritage.cn</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="mr-3">☎️</span>
+                                    <span>+86 10 8888 6666</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <div class="text-xs text-stone-400 uppercase tracking-widest mb-2">Follow Us</div>
+                            <div class="flex space-x-4 text-lg">
+                                <a href="#" class="hover:text-heritage-accent">WeChat</a>
+                                <a href="#" class="hover:text-heritage-accent">Weibo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Side -->
+                    <div class="p-10 md:w-2/3 bg-stone-50">
+                        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">姓名</label>
+                                    <input type="text" id="name" required class="w-full px-4 py-3 rounded bg-white border border-stone-200 focus:border-heritage-primary focus:outline-none transition-colors" placeholder="您的称呼">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">邮箱</label>
+                                    <input type="email" id="email" required class="w-full px-4 py-3 rounded bg-white border border-stone-200 focus:border-heritage-primary focus:outline-none transition-colors" placeholder="user@example.com">
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">主题</label>
+                                <select id="subject" class="w-full px-4 py-3 rounded bg-white border border-stone-200 focus:border-heritage-primary focus:outline-none transition-colors">
+                                    <option>普通咨询</option>
+                                    <option>文物线索提供</option>
+                                    <option>志愿者申请</option>
+                                    <option>技术合作</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">留言内容</label>
+                                <textarea id="message" required rows="4" class="w-full px-4 py-3 rounded bg-white border border-stone-200 focus:border-heritage-primary focus:outline-none transition-colors" placeholder="请详细描述您的需求..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-heritage-primary text-white font-bold py-3 px-6 rounded hover:bg-opacity-90 transition-transform transform active:scale-95 shadow-md">
+                                发送留言
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FOOTER -->
+        <footer class="bg-heritage-secondary text-stone-400 py-8 mt-12">
+            <div class="container mx-auto px-4 text-center">
+                <p class="font-serif text-lg text-white mb-2">云端博物 · 历史在指尖流淌</p>
+                <p class="text-sm">© 2024 文物保护 Web 前端课程设计小组. All rights reserved.</p>
+                <div class="mt-4 text-xs">
+                    <span>隐私政策</span> | <span>使用条款</span> | <span>网站地图</span>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeModal()">
+        <div class="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all scale-95" id="modal-content" onclick="event.stopPropagation()">
+            <!-- Dynamic Content -->
+            <div class="relative">
+                <button onclick="closeModal()" class="absolute top-4 right-4 bg-stone-100 hover:bg-stone-200 rounded-full p-2 text-stone-600 transition-colors z-10">✕</button>
+                <div id="modal-body" class="p-0">
+                    <!-- JS fills this -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 0. GEMINI API CONFIG ---
+        const apiKey = ""; // Runtime Environment will provide key
+
+        async function callGeminiAPI(prompt) {
+            if (!apiKey) {
+                console.warn("API Key missing (simulating logic for demo if needed, but intended for real env)");
+                // Just in case we are in a no-key env, we might want to fail gracefully or show mock
+                // return "API Key not configured."; 
+            }
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }]
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "抱歉，我暂时无法回答这个问题。";
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return "网络连接异常，请稍后重试。";
+            }
+        }
+
+        // --- 1. DATA STORAGE ---
+
+        // Artifact Data
+        const artifacts = [
+            {
+                id: 1,
+                name: "四羊方尊",
+                category: "bronze",
+                period: "商代晚期",
+                image: "https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "四羊方尊是中国现存商代青铜方尊中最大的一件。其造型独特，肩部四角各塑一羊，羊首向外，羊角卷曲，神态安详。",
+                details: "修复历史：1938年出土时碎为20余块，后经清洗、焊接、补配、随色等工序修复完整。最近一次数字化扫描显示其内壁有铭文痕迹。",
+                status: "完好 (Level A)"
+            },
+            {
+                id: 2,
+                name: "翠玉白菜",
+                category: "jade",
+                period: "清代",
+                image: "https://images.unsplash.com/photo-1608371945634-3168807897df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "利用翡翠天然的色泽雕刻而成，寓意清白。菜叶上停留的两只昆虫是螽斯和蝗虫，寓意多子多孙。",
+                details: "维护记录：定期进行恒温恒湿环境监测。2021年发现微小裂纹风险，已加强防震支架保护。",
+                status: "需监测 (Level B)"
+            },
+            {
+                id: 3,
+                name: "青花瓷盘",
+                category: "ceramics",
+                period: "明代",
+                image: "https://images.unsplash.com/photo-1610136896225-4c0977218688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "盘心绘有缠枝莲纹，釉色温润，青花发色浓艳，是明代官窑的代表作。",
+                details: "技术分析：通过X射线荧光光谱分析，确定其钴料来自进口的苏麻离青。",
+                status: "完好 (Level A)"
+            },
+            {
+                id: 4,
+                name: "千里江山图(局部)",
+                category: "painting",
+                period: "北宋",
+                image: "https://images.unsplash.com/photo-1580137189272-c9379f8864fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "王希孟18岁时所作，以石青、石绿等矿物颜料绘成，色彩绚丽，气势恢宏。",
+                details: "保护现状：因矿物颜料易脱落，极少展出。目前主要通过8K高清数字副本供公众欣赏。",
+                status: "极脆弱 (Level S)"
+            },
+            {
+                id: 5,
+                name: "三星堆金面具",
+                category: "bronze",
+                period: "商代",
+                image: "https://images.unsplash.com/photo-1549886367-a5eb10b65672?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "展示了古蜀文明独特的审美与高超的黄金加工工艺。",
+                details: "出土情况：2021年出土于祭祀坑，出土时被压皱。通过数字展开技术还原了其原本形态。",
+                status: "修复中 (Level C)"
+            },
+            {
+                id: 6,
+                name: "白玉龙钮印",
+                category: "jade",
+                period: "汉代",
+                image: "https://images.unsplash.com/photo-1627931666687-3450953a9686?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                desc: "汉代皇室专用印章，玉质洁白无瑕，龙钮雕刻精细。",
+                details: "无明显破损，主要进行定期清洁与表面封护。",
+                status: "完好 (Level A)"
+            }
+        ];
+
+        // News Data
+        const newsData = [
+            {
+                id: 1,
+                title: "国家文物局发布《“十四五”文物保护和科技创新规划》",
+                date: "2024-05-15",
+                summary: "规划明确提出要加强文物科技创新，建立国家级文物保护科研平台，重点突破土遗址保护、有机质文物保护等关键技术瓶颈。",
+                content: "详细内容：规划指出，到2025年，我国文物科技创新能力显著增强，文物保护利用水平全面提升。重点任务包括：1. 建设国家文化遗产科技创新中心。2. 攻克一批文物保护关键核心技术。3. 完善文物科技人才培养体系。这将为我国从文物资源大国向文物保护强国跨越提供有力支撑。"
+            },
+            {
+                id: 2,
+                title: "数字敦煌项目新成果：30个洞窟实现全球高清虚拟漫游",
+                date: "2024-04-20",
+                summary: "“数字敦煌”数据库再次扩容，利用毫米级激光扫描技术，将莫高窟不可移动的壁画变成了可永久保存的数字资产。",
+                content: "详细内容：经过技术团队历时3年的攻关，本次上线的洞窟包括盛唐时期的经典洞窟。用户可以通过VR设备身临其境地观察壁画细节，甚至比现场观看更加清晰。这一举措有效缓解了实地参观给文物带来的环境压力，是“保护与展示”平衡的典范。"
+            },
+            {
+                id: 3,
+                title: "水下考古新突破：长江口二号古船整体打捞出水",
+                date: "2024-03-10",
+                summary: "这是目前国内乃至世界上发现的体量最大、保存最为完整、船载文物数量巨大的古代木质沉船之一。",
+                content: "详细内容：采用了世界首创的“弧形梁非接触文物整体迁移技术”。古船出水后，将被送往特制的考古实验室进行后续的清理与保护。船上载有大量的景德镇瓷器，对于研究清代晚期经济史、贸易史具有重要价值。"
+            }
+        ];
+
+        // --- 2. INITIALIZATION & RENDERING ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            renderArtifacts(artifacts);
+            renderNews();
+            
+            // Mobile Menu Toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        });
+
+        // --- 3. NAVIGATION ---
+
+        function navigateTo(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => {
+                sec.classList.add('hidden');
+            });
+
+            // Show selected section
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.remove('hidden');
+                // Re-trigger animations
+                activeSection.classList.remove('fade-in');
+                void activeSection.offsetWidth; // Trigger reflow
+                activeSection.classList.add('fade-in');
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // --- 4. ARTIFACT LOGIC (Museum) ---
+
+        function renderArtifacts(data) {
+            const grid = document.getElementById('artifact-grid');
+            grid.innerHTML = '';
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer border border-stone-100 group";
+                card.onclick = () => openModal(item);
+                
+                card.innerHTML = `
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                            ${getCategoryName(item.category)}
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-serif text-xl font-bold text-heritage-secondary mb-1">${item.name}</h3>
+                        <p class="text-sm text-heritage-primary mb-2">${item.period}</p>
+                        <p class="text-stone-500 text-sm line-clamp-2">${item.desc}</p>
+                        <div class="mt-3 text-xs text-stone-400 border-t pt-2 flex justify-between">
+                            <span>点击查看详情</span>
+                            <span>➔</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterArtifacts(category) {
+            // Update UI buttons
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                if(btn.dataset.filter === category) {
+                    btn.classList.add('bg-heritage-primary', 'text-white', 'border-transparent');
+                } else {
+                    btn.classList.remove('bg-heritage-primary', 'text-white', 'border-transparent');
+                }
+            });
+
+            // Filter Data
+            if (category === 'all') {
+                renderArtifacts(artifacts);
+            } else {
+                const filtered = artifacts.filter(item => item.category === category);
+                renderArtifacts(filtered);
+            }
+        }
+
+        function getCategoryName(cat) {
+            const map = {
+                'bronze': '青铜器',
+                'jade': '玉器',
+                'ceramics': '陶瓷',
+                'painting': '书画'
+            };
+            return map[cat] || '其他';
+        }
+
+        // --- 5. NEWS LOGIC ---
+        
+        function renderNews() {
+            const container = document.getElementById('news-container');
+            container.innerHTML = '';
+            
+            newsData.forEach(item => {
+                const article = document.createElement('div');
+                article.className = "bg-white border-l-4 border-stone-300 pl-6 py-2 transition-all hover:border-heritage-primary";
+                article.innerHTML = `
+                    <div class="flex justify-between items-start cursor-pointer" onclick="toggleNews(${item.id})">
+                        <div>
+                            <h3 class="text-xl font-bold text-heritage-secondary hover:text-heritage-primary transition-colors">${item.title}</h3>
+                            <div class="text-xs text-stone-400 mt-1 mb-2">发布日期: ${item.date}</div>
+                        </div>
+                        <span id="news-icon-${item.id}" class="text-2xl text-stone-300 transform transition-transform">+</span>
+                    </div>
+                    <p class="text-stone-600 mb-2">${item.summary}</p>
+                    <div id="news-content-${item.id}" class="hidden mt-4 text-stone-800 bg-stone-50 p-4 rounded text-sm leading-relaxed border border-stone-100">
+                        ${item.content}
+                    </div>
+                `;
+                container.appendChild(article);
+            });
+        }
+
+        function toggleNews(id) {
+            const content = document.getElementById(`news-content-${id}`);
+            const icon = document.getElementById(`news-icon-${id}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '-';
+                icon.classList.add('text-heritage-primary');
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '+';
+                icon.classList.remove('text-heritage-primary');
+            }
+        }
+
+        // --- 6. MODAL SYSTEM & AI FEATURE #1 (AI GUIDE) ---
+
+        function openModal(item) {
+            const modal = document.getElementById('modal-overlay');
+            const body = document.getElementById('modal-body');
+            
+            body.innerHTML = `
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-1/2 h-64 md:h-auto">
+                        <img src="${item.image}" class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
+                    </div>
+                    <div class="p-8 md:w-1/2 flex flex-col justify-center max-h-[90vh] overflow-y-auto">
+                        <div class="inline-block px-3 py-1 bg-heritage-primary text-white text-xs rounded-full w-fit mb-4">
+                            ${getCategoryName(item.category)} • ${item.period}
+                        </div>
+                        <h2 class="font-serif text-3xl font-bold text-heritage-secondary mb-4">${item.name}</h2>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-sm uppercase text-stone-400">文物描述</h4>
+                                <p class="text-stone-700 leading-relaxed">${item.desc}</p>
+                            </div>
+                            
+                            <div class="bg-stone-50 p-4 rounded border border-stone-200">
+                                <h4 class="font-bold text-sm uppercase text-heritage-primary mb-1">数字化档案 / 修复记录</h4>
+                                <p class="text-sm text-stone-600">${item.details}</p>
+                                <div class="mt-2 text-xs font-mono text-stone-400">当前状态: ${item.status}</div>
+                            </div>
+
+                            <!-- GEMINI FEATURE: AI GUIDE BUTTON -->
+                            <div class="pt-4 border-t border-dashed border-stone-300">
+                                <button onclick="generateAIStory('${item.name}', '${item.period}', this)" class="w-full py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded hover:opacity-90 transition shadow flex justify-center items-center text-sm font-bold">
+                                    <span>✨ 生成 AI 智能解说</span>
+                                </button>
+                                <div id="ai-story-output" class="hidden mt-3 p-3 bg-purple-50 text-stone-700 text-sm rounded border border-purple-100 leading-relaxed"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('modal-content').classList.remove('scale-95');
+                document.getElementById('modal-content').classList.add('scale-100');
+            }, 10);
+        }
+
+        async function generateAIStory(name, period, btn) {
+            const outputDiv = btn.nextElementSibling;
+            const originalText = btn.innerHTML;
+
+            // UI Loading State
+            btn.disabled = true;
+            btn.innerHTML = `<span class="spinner border-white border-l-transparent"></span> 正在生成历史故事...`;
+            outputDiv.classList.add('hidden');
+            outputDiv.innerHTML = '';
+
+            const prompt = `你是专业的博物馆金牌导览员。请为观众介绍一件【${period}】的文物【${name}】。请用生动、有趣、略带故事性的语言，介绍它的历史背景、艺术价值或可能发生的历史趣事。字数控制在150字以内。`;
+
+            // Call API
+            const result = await callGeminiAPI(prompt);
+
+            // Update UI
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            outputDiv.innerHTML = `<strong>✨ AI 导览员：</strong><br>${result}`;
+            outputDiv.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal-overlay');
+            const content = document.getElementById('modal-content');
+            
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 150);
+        }
+
+        // --- 7. AI FEATURE #2 (RESTORATION CONSULTANT) ---
+
+        async function askRestorationAI() {
+            const input = document.getElementById('ai-tech-input');
+            const output = document.getElementById('ai-tech-output');
+            const btn = document.getElementById('ai-tech-btn');
+            const userQuestion = input.value.trim();
+
+            if (!userQuestion) {
+                alert("请输入您的问题！");
+                return;
+            }
+
+            // UI Loading State
+            const originalBtnText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<span class="spinner border-white border-l-transparent"></span> AI 思考中...`;
+            output.classList.add('hidden');
+
+            const prompt = `你是一位资深的文物修复专家和数字文保技术顾问。用户问了一个关于文物保护的问题：“${userQuestion}”。请用专业但通俗易懂的语言回答，可以结合传统修复工艺和现代科技手段。字数控制在200字左右。`;
+
+            // Call API
+            const result = await callGeminiAPI(prompt);
+
+            // Update UI
+            btn.innerHTML = originalBtnText;
+            btn.disabled = false;
+            output.innerHTML = `<strong>💡 专家解答：</strong><br>${result}`;
+            output.classList.remove('hidden');
+        }
+
+
+        // --- 8. CHARTS (Chart.js) ---
+
+        function initCharts() {
+            // Home: Preservation Status Chart
+            const ctx1 = document.getElementById('preservationChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['完好保存', '轻微破损', '急需修复', '正在修复中'],
+                    datasets: [{
+                        data: [65, 20, 10, 5],
+                        backgroundColor: ['#2c3e50', '#8c4b31', '#d4af37', '#e2e8f0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Tech: Efficiency Chart
+            const ctx2 = document.getElementById('techChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['碎片拼对', '颜色还原', '病害检测', '数据建档'],
+                    datasets: [
+                        {
+                            label: '传统人工耗时 (小时)',
+                            data: [120, 48, 24, 72],
+                            backgroundColor: '#9ca3af'
+                        },
+                        {
+                            label: 'AI/技术辅助耗时 (小时)',
+                            data: [40, 12, 4, 10],
+                            backgroundColor: '#8c4b31'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // --- 9. CONTACT FORM ---
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+
+            btn.innerText = "发送中...";
+            btn.disabled = true;
+
+            // Simulate Network Request
+            setTimeout(() => {
+                alert(`感谢您的留言，${name}！\n我们已收到您的信息，工作人员将在3个工作日内联系您。`);
+                e.target.reset();
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }, 1000);
+        }
+
+    </script>
+</body>
+</html>

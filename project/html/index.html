@@ -7,57 +7,15 @@
     
     <!-- Tailwind CSS -->
     <script src="../js/tail.js"></script>
-    
+    <link rel="icon" href="../images/temple.png">
     <!-- Chart.js -->
     <script src="../js/chart.js"></script>
     <link rel="stylesheet" href="../css/style.css">
     <!-- Configuration -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        heritage: {
-                            bg: '#f9f7f2',       /* Warm Rice Paper */
-                            primary: '#8c4b31',  /* Terracotta/Bronze */
-                            secondary: '#2c3e50',/* Charcoal/Ink */
-                            accent: '#d4af37',   /* Muted Gold */
-                            text: '#4a4a4a',     /* Dark Grey Text */
-                            card: '#ffffff'
-                        }
-                    },
-                    fontFamily: {
-                        serif: ['"Noto Serif SC"', 'serif'],
-                        sans: ['"Noto Sans SC"', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <script src="../js/background.js"></script>
 </head>
 <body class="bg-heritage-bg text-heritage-text font-sans antialiased overflow-x-hidden selection:bg-heritage-primary selection:text-white">
 
-    <!-- REQUIRED PLACEHOLDERS -->
-    <!-- Chosen Palette: Warm Heritage. -->
-    
-    <!-- Application Structure Plan:
-         Updated to include Gemini AI integrations:
-         1. **Navigation & Home:** Standard navigation and dashboard overview.
-         2. **Museum (AI Enhanced):** Grid of artifacts. Clicking opens a Modal. The Modal now features a "Gemini AI Guide" button that generates a dynamic story about the artifact.
-         3. **News:** Dynamic feed.
-         4. **Technology (AI Enhanced):** Contains a new interactive "AI Restoration Consultant" chat interface powered by Gemini to answer user questions about preservation techniques.
-         5. **Contact:** Standard form.
-    -->
-
-    <!-- Visualization & Content Choices:
-         ... Standard charts preserved ...
-         **Gemini Integration:**
-         - **AI Guide:** Uses Gemini to generate text based on artifact name context.
-         - **Restoration Chat:** Uses Gemini to answer free-form text queries.
-         CONFIRMATION: NO SVG graphics used (Tailwind/Unicode used). NO Mermaid JS used.
-    -->
-
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-stone-200">

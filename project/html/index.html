@@ -1,341 +1,228 @@
-<!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中华文物数字保护平台 | Digital Heritage Protection</title>
-    
-    <!-- Tailwind CSS -->
+    <title>中华文物数字保护平台 | Digital Heritage</title>
+    <script src="../js/chart.js"></script>
     <script src="../js/tail.js"></script>
     <link rel="icon" href="../images/temple.png">
-    <!-- Chart.js -->
-    <script src="../js/chart.js"></script>
-    <link rel="stylesheet" href="../css/style.css">
-    <!-- Configuration -->
-    <script src="../js/background.js"></script>
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
 </head>
-<body class="bg-heritage-bg text-heritage-text font-sans antialiased overflow-x-hidden selection:bg-heritage-primary selection:text-white">
+<body>
 
-
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-stone-200">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center cursor-pointer" onclick="navigateTo('home')">
-                    <span class="text-3xl mr-2">🏛️</span>
-                    <div>
-                        <h1 class="font-serif text-2xl font-bold text-heritage-secondary tracking-wide">云端博物</h1>
-                        <p class="text-xs text-heritage-primary tracking-widest uppercase">Digital Heritage Guard</p>
-                    </div>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8">
-                    <button onclick="navigateTo('home')" class="nav-btn text-heritage-secondary hover:text-heritage-primary font-medium transition-colors border-b-2 border-transparent hover:border-heritage-primary pb-1">首页概览</button>
-                    <button onclick="navigateTo('museum')" class="nav-btn text-heritage-secondary hover:text-heritage-primary font-medium transition-colors border-b-2 border-transparent hover:border-heritage-primary pb-1">文物详情</button>
-                    <button onclick="navigateTo('news')" class="nav-btn text-heritage-secondary hover:text-heritage-primary font-medium transition-colors border-b-2 border-transparent hover:border-heritage-primary pb-1">新闻动态</button>
-                    <button onclick="navigateTo('tech')" class="nav-btn text-heritage-secondary hover:text-heritage-primary font-medium transition-colors border-b-2 border-transparent hover:border-heritage-primary pb-1">前沿技术</button>
-                    <button onclick="navigateTo('contact')" class="nav-btn px-4 py-2 bg-heritage-primary text-white rounded hover:bg-opacity-90 transition-all shadow-md">联系我们</button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-heritage-secondary focus:outline-none">
-                        <span class="text-2xl">☰</span>
-                    </button>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container flex-row">
+            <!-- Logo -->
+            <div class="logo-area" onclick="navigateTo('home')">
+                <span class="logo-icon">🏛️</span>
+                <div class="logo-text">
+                    <h1>云端博物</h1>
+                    <p>Digital Heritage Guard</p>
                 </div>
             </div>
-        </div>
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-100 p-4 shadow-lg">
-            <div class="flex flex-col space-y-4">
-                <button onclick="navigateTo('home')" class="text-left text-heritage-secondary font-medium">首页概览</button>
-                <button onclick="navigateTo('museum')" class="text-left text-heritage-secondary font-medium">文物详情</button>
-                <button onclick="navigateTo('news')" class="text-left text-heritage-secondary font-medium">新闻动态</button>
-                <button onclick="navigateTo('tech')" class="text-left text-heritage-secondary font-medium">前沿技术</button>
-                <button onclick="navigateTo('contact')" class="text-left text-heritage-primary font-bold">联系我们</button>
+            <div class="nav-links">
+                <button onclick="navigateTo('home')" class="nav-item btn-text">首页概览</button>
+                <button onclick="navigateTo('museum')" class="nav-item btn-text">文物详情</button>
+                <button onclick="navigateTo('news')" class="nav-item btn-text">新闻动态</button>
+                <button onclick="navigateTo('tech')" class="nav-item btn-text">前沿技术</button>
+                <button onclick="navigateTo('contact')" class="btn btn-primary">联系我们</button>
             </div>
         </div>
+
     </nav>
 
-    <!-- Main Content Container -->
-    <main id="app-content" class="min-h-screen">
+    <!-- 主内容区域 -->
+    <main id="app-content">
         
-        <!-- SECTION: HOME / OVERVIEW -->
+        <!-- 1. 首页 -->
         <section id="home" class="page-section fade-in">
-            <!-- Hero Banner -->
-            <div class="relative w-full h-[60vh] flex items-center justify-center bg-stone-800 text-white overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1599827059754-08eb4c130ba8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Ancient Architecture" class="absolute inset-0 w-full h-full object-cover opacity-40">
-                <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
-                    <h2 class="font-serif text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">守护历史，传承文明</h2>
-                    <p class="text-lg md:text-xl text-stone-200 mb-8 max-w-2xl mx-auto leading-relaxed">
-                        每一件文物都是历史的见证。我们致力于利用现代科技手段，数字化保存、修复和展示中华文明的瑰宝，让千年文化触手可及。
-                    </p>
-                    <button onclick="navigateTo('museum')" class="px-8 py-3 bg-heritage-primary hover:bg-orange-800 text-white font-semibold rounded-sm transition-all shadow-lg transform hover:-translate-y-1">
-                        探索数字馆藏
-                    </button>
+            <!-- Banner -->
+            <div class="hero-banner">
+                <img src="../images/back.jpg" alt="Architecture" class="hero-img">
+                <div class="hero-content">
+                    <h2 class="hero-title">守护历史，传承文明</h2>
+                    <p class="hero-subtitle">利用现代科技手段，数字化保存、修复和展示中华文明的瑰宝。</p>
+                    <button onclick="navigateTo('museum')" class="btn btn-primary">探索数字馆藏</button>
                 </div>
             </div>
 
-            <!-- Stats Dashboard -->
-            <div class="container mx-auto px-4 py-16">
-                <div class="mb-12 text-center">
-                    <h3 class="font-serif text-3xl font-bold text-heritage-secondary mb-4">当前保护概况</h3>
-                    <p class="text-stone-600 max-w-2xl mx-auto">
-                        通过对全国重点文物的普查与数字化建档，我们不仅掌握了文物的现状，更通过数据分析制定了更精准的修复计划。以下是目前的馆藏与修复进度概览。
-                    </p>
+            <!-- 仪表盘 -->
+            <div class="container py-section">
+                <div class="mb-large" style="text-align: center;">
+                    <h3>当前保护概况</h3>
+                    <p style="color: var(--text-light);">数字化建档与修复进度概览。</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-                    <!-- Text Stats -->
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-heritage-primary">
-                            <div class="text-4xl font-bold text-heritage-primary mb-2">5,200+</div>
-                            <div class="text-sm text-stone-500 font-medium">已建档文物</div>
+                <div class="grid-2">
+                    <!-- 统计数据 -->
+                    <div class="grid-2" style="align-content: start;">
+                        <div class="stat-card primary">
+                            <div class="stat-num" style="color: var(--primary);">5,200+</div>
+                            <div class="stat-label">已建档文物</div>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-heritage-accent">
-                            <div class="text-4xl font-bold text-heritage-accent mb-2">128</div>
-                            <div class="text-sm text-stone-500 font-medium">正在修复</div>
+                        <div class="stat-card accent">
+                            <div class="stat-num" style="color: var(--accent);">128</div>
+                            <div class="stat-label">正在修复</div>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-heritage-secondary">
-                            <div class="text-4xl font-bold text-heritage-secondary mb-2">98%</div>
-                            <div class="text-sm text-stone-500 font-medium">完好保存率</div>
+                        <div class="stat-card secondary">
+                            <div class="stat-num" style="color: var(--secondary);">98%</div>
+                            <div class="stat-label">完好保存率</div>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-sm border-t-4 border-stone-400">
-                            <div class="text-4xl font-bold text-stone-600 mb-2">350万</div>
-                            <div class="text-sm text-stone-500 font-medium">线上访问人次</div>
+                        <div class="stat-card">
+                            <div class="stat-num" style="color: var(--text-main);">350万</div>
+                            <div class="stat-label">线上访问人次</div>
                         </div>
                     </div>
 
-                    <!-- Chart Container -->
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h4 class="font-serif text-lg font-bold text-heritage-secondary mb-4 text-center">文物完好度与修复需求分布</h4>
+                    <!-- 图表 -->
+                    <div class="card">
+                        <h4 style="text-align: center; margin-bottom: 20px;">文物完好度分布</h4>
                         <div class="chart-container">
                             <canvas id="preservationChart"></canvas>
                         </div>
-                        <p class="text-xs text-center text-stone-400 mt-2">数据来源：2025年度文物普查报告</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION: MUSEUM / ARTIFACTS -->
-        <section id="museum" class="page-section hidden fade-in py-12 bg-white">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-heritage-secondary mb-4">文物详情 · 数字博物馆</h2>
-                    <p class="text-stone-600 max-w-3xl mx-auto">
-                        在这里，您可以近距离观察稀世珍宝。我们利用高精度摄影与三维建模技术，还原了文物的每一个细节。点击卡片可查看文物的发掘历史与修复记录。
-                    </p>
-                    
-                    <!-- Filters -->
-                    <div class="flex flex-wrap justify-center gap-4 mt-8">
-                        <button onclick="filterArtifacts('all')" class="filter-btn active px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="all">全部</button>
-                        <button onclick="filterArtifacts('bronze')" class="filter-btn px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="bronze">青铜器</button>
-                        <button onclick="filterArtifacts('ceramics')" class="filter-btn px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="ceramics">陶瓷</button>
-                        <button onclick="filterArtifacts('painting')" class="filter-btn px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="painting">书画</button>
-                        <button onclick="filterArtifacts('jade')" class="filter-btn px-4 py-2 rounded-full border border-stone-300 hover:bg-heritage-primary hover:text-white hover:border-transparent transition-all" data-filter="jade">玉器</button>
+        <!-- 2. 文物详情 (博物馆) -->
+        <section id="museum" class="page-section hidden fade-in py-section">
+            <div class="container">
+                <div class="mb-large" style="text-align: center;">
+                    <h2>文物详情 · 数字博物馆</h2>
+                    <!-- 过滤器 -->
+                    <div class="flex-center mt-medium" style="gap: 10px; flex-wrap: wrap;">
+                        <button onclick="filterArtifacts('all')" class="filter-btn active" data-filter="all">全部</button>
+                        <button onclick="filterArtifacts('bronze')" class="filter-btn" data-filter="bronze">青铜器</button>
+                        <button onclick="filterArtifacts('ceramics')" class="filter-btn" data-filter="ceramics">陶瓷</button>
+                        <button onclick="filterArtifacts('painting')" class="filter-btn" data-filter="painting">书画</button>
+                        <button onclick="filterArtifacts('jade')" class="filter-btn" data-filter="jade">玉器</button>
                     </div>
                 </div>
 
-                <!-- Gallery Grid -->
-                <div id="artifact-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    <!-- Artifact Cards will be injected by JS -->
+                <!-- JS 生成的网格 -->
+                <div id="artifact-grid" class="artifact-grid"></div>
+            </div>
+        </section>
+
+        <!-- 3. 新闻动态 -->
+        <section id="news" class="page-section hidden fade-in py-section">
+            <div class="container" style="max-width: 900px;">
+                <div class="mb-large" style="border-bottom: 1px solid var(--gray-200); padding-bottom: 20px;">
+                    <h2>最近的新闻动态</h2>
+                </div>
+                <div id="news-container">
                 </div>
             </div>
         </section>
 
-        <!-- SECTION: NEWS -->
-        <section id="news" class="page-section hidden fade-in py-12">
-            <div class="container mx-auto px-4 max-w-5xl">
-                <div class="mb-10 border-b border-stone-300 pb-4">
-                    <h2 class="font-serif text-3xl font-bold text-heritage-secondary">最近的新闻动态</h2>
-                    <p class="text-stone-600 mt-2">关注文物保护领域的最新发现、政策解读与学术交流。</p>
+        <!-- 4. 前沿技术 -->
+        <section id="tech" class="page-section hidden fade-in py-section" style="background-color: var(--gray-100);">
+            <div class="container">
+                <div class="mb-large" style="text-align: center;">
+                    <h2>科技赋能 · 文物新生</h2>
                 </div>
 
-                <div id="news-container" class="space-y-6">
-                    <!-- News Items Injected JS -->
-                </div>
-                
-                <div class="text-center mt-10">
-                    <button class="text-heritage-primary font-medium hover:underline cursor-pointer">查看更多历史新闻 &rarr;</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION: TECHNOLOGY -->
-        <section id="tech" class="page-section hidden fade-in py-12 bg-stone-100">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="font-serif text-3xl font-bold text-heritage-secondary mb-4">科技赋能 · 文物新生</h2>
-                    <p class="text-stone-600 max-w-3xl mx-auto">
-                        现代科技正在改变文物保护的方式。从AI识别碎片拼接，到环境监测传感器，科学技术大大提高了修复效率与文物的安全性。
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                    <!-- Feature List & Chart -->
-                    <div class="space-y-6">
-                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-start space-x-4">
-                            <div class="bg-heritage-primary text-white p-3 rounded-full text-xl shrink-0">📡</div>
+                <div class="grid-2">
+                    <div>
+                        <!-- 特性列表 -->
+                        <div class="tech-feature">
+                            <div class="tech-icon">📡</div>
                             <div>
-                                <h4 class="font-bold text-lg text-heritage-secondary">LiDAR 激光雷达扫描</h4>
-                                <p class="text-sm text-stone-600 mt-1">对石窟、古建筑进行毫米级三维建模，为数字化存档和虚拟修复提供精确的基础数据。</p>
+                                <h4>LiDAR 激光雷达扫描</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-light);">进行毫米级三维建模。</p>
                             </div>
                         </div>
-                        <div class="bg-white p-6 rounded-lg shadow-sm flex items-start space-x-4">
-                            <div class="bg-heritage-primary text-white p-3 rounded-full text-xl shrink-0">🧬</div>
+                        <div class="tech-feature">
+                            <div class="tech-icon">🤖</div>
                             <div>
-                                <h4 class="font-bold text-lg text-heritage-secondary">多光谱成像分析</h4>
-                                <p class="text-sm text-stone-600 mt-1">透过表面污渍查看肉眼不可见的墨迹或颜料层，用于古书画的无损检测与真伪鉴定。</p>
+                                <h4>AI 碎片虚拟拼接</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-light);">深度学习算法自动匹配破碎陶片。</p>
                             </div>
                         </div>
                         
-                        <!-- Tech Chart -->
-                        <div class="bg-white p-8 rounded-xl shadow-lg mt-6">
-                            <h4 class="font-serif text-lg font-bold text-heritage-secondary mb-6 text-center">传统修复 vs AI辅助修复 效率对比</h4>
+                        <!-- 效率对比图表 -->
+                        <div class="card mt-medium">
+                            <h4 style="text-align: center; margin-bottom: 20px;">修复效率对比</h4>
                             <div class="chart-container">
                                 <canvas id="techChart"></canvas>
                             </div>
-                            <div class="mt-4 p-4 bg-yellow-50 rounded text-sm text-yellow-800 border border-yellow-100">
-                                <strong>分析结论：</strong> 引入AI辅助技术后，特别是在碎片拼接和色彩还原环节，平均工时减少了约45%。
-                            </div>
                         </div>
                     </div>
 
-                    <!-- Gemini AI Integration: Restoration Consultant -->
-                    <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-purple-100 relative">
-                         <!-- Decorative gradient background -->
-                        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-heritage-primary"></div>
-                        
-                        <div class="p-8">
-                            <div class="flex items-center mb-6">
-                                <div class="bg-purple-100 p-3 rounded-full mr-4 text-2xl">✨</div>
+                    <!-- AI 顾问卡片 -->
+                    <div class="ai-card">
+                        <div class="ai-top-bar"></div>
+                        <div class="ai-body">
+                            <div class="ai-header">
+                                <div class="ai-avatar">✨</div>
                                 <div>
-                                    <h3 class="font-serif text-2xl font-bold text-heritage-secondary">AI 修复顾问</h3>
-                                    <p class="text-xs text-purple-600 font-medium">Powered by Gemini AI</p>
+                                    <h3>AI 修复顾问</h3>
+                                    <span style="font-size: 0.8rem; color: var(--purple-600);">Virtual Assistant</span>
                                 </div>
                             </div>
+                            <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-light);">我是您的智能助手，请问有什么可以帮您？</p>
                             
-                            <p class="text-stone-600 text-sm mb-6">
-                                遇到文物保护难题？我是您的智能助手。无论是关于青铜器除锈、字画防潮，还是陶瓷拼接，我都能为您解答。
-                            </p>
-
-                            <div class="mb-4">
-                                <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">您的问题</label>
-                                <textarea id="ai-tech-input" rows="3" class="w-full px-4 py-3 rounded bg-stone-50 border border-stone-200 focus:border-purple-500 focus:outline-none transition-colors" placeholder="例如：古代字画发黄了应该如何处理？"></textarea>
-                            </div>
+                            <textarea id="ai-tech-input" rows="3" class="form-textarea" placeholder="例如：古代字画发黄了应该如何处理？"></textarea>
                             
-                            <button onclick="askRestorationAI()" id="ai-tech-btn" class="w-full bg-gradient-to-r from-heritage-secondary to-purple-800 text-white font-bold py-3 px-6 rounded hover:opacity-90 transition-all shadow-md flex justify-center items-center">
-                                <span>开始咨询</span>
-                            </button>
-
-                            <!-- AI Output Area -->
-                            <div id="ai-tech-output" class="hidden mt-6 bg-purple-50 p-5 rounded-lg border border-purple-100 text-sm text-stone-700 leading-relaxed relative">
-                                <!-- Content injected here -->
-                            </div>
+                            <button onclick="askRestorationAI()" id="ai-tech-btn" class="btn btn-ai">开始咨询</button>
+                            
+                            <div id="ai-tech-output" class="ai-output-box hidden"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION: CONTACT -->
-        <section id="contact" class="page-section hidden fade-in py-12">
-            <div class="container mx-auto px-4 max-w-4xl">
-                <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
-                    <!-- Info Side -->
-                    <div class="bg-heritage-secondary text-white p-10 md:w-1/3 flex flex-col justify-between">
-                        <div>
-                            <h3 class="font-serif text-2xl font-bold mb-6">联系我们</h3>
-                            <p class="text-stone-300 text-sm mb-8">无论是文物捐赠咨询、学术合作，还是志愿服务申请，我们都期待您的声音。</p>
-                            
-                            <div class="space-y-4 text-sm">
-                                <div class="flex items-center">
-                                    <span class="mr-3">📍</span>
-                                    <span>北京市东城区文博路8号</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="mr-3">📧</span>
-                                    <span>contact@digitalheritage.cn</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="mr-3">☎️</span>
-                                    <span>+86 10 8888 6666</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-10">
-                            <div class="text-xs text-stone-400 uppercase tracking-widest mb-2">Follow Us</div>
-                            <div class="flex space-x-4 text-lg">
-                                <a href="#" class="hover:text-heritage-accent">WeChat</a>
-                                <a href="#" class="hover:text-heritage-accent">Weibo</a>
-                            </div>
-                        </div>
+        <!-- 5. 联系我们 -->
+        <section id="contact" class="page-section hidden fade-in py-section">
+            <div class="container" style="max-width: 900px;">
+                <div class="contact-layout">
+                    <div class="contact-info">
+                        <h3 style="color: white; margin-bottom: 20px;">联系我们</h3>
+                        <p style="margin-bottom: 10px;">📍 北京市东城区文博路8号</p>
+                        <p>📧 contact@digitalheritage.cn</p>
                     </div>
-
-                    <!-- Form Side -->
-                    <div class="p-10 md:w-2/3 bg-stone-50">
+                    <div class="contact-form">
                         <form id="contactForm" onsubmit="handleContactSubmit(event)">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                <div>
-                                    <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">姓名</label>
-                                    <input type="text" id="name" required class="w-full px-4 py-3 rounded bg-white border border-stone-200 focus:border-heritage-primary focus:outline-none transition-colors" placeholder="您的称呼">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">邮箱</label>
-                                    <input type="email" id="email" required class="w-full px-4 py-3 rounded bg-white border border-stone-200 focus:border-heritage-primary focus:outline-none transition-colors" placeholder="user@example.com">
-                                </div>
+                            <div class="form-group">
+                                <label class="form-label">姓名</label>
+                                <input type="text" id="name" class="form-input" required>
                             </div>
-                            <div class="mb-6">
-                                <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">主题</label>
-                                <select id="subject" class="w-full px-4 py-3 rounded bg-white border border-stone-200 focus:border-heritage-primary focus:outline-none transition-colors">
-                                    <option>普通咨询</option>
-                                    <option>文物线索提供</option>
-                                    <option>志愿者申请</option>
-                                    <option>技术合作</option>
-                                </select>
+                            <div class="form-group">
+                                <label class="form-label">留言</label>
+                                <textarea id="message" rows="3" class="form-input" required></textarea>
                             </div>
-                            <div class="mb-6">
-                                <label class="block text-xs font-bold text-heritage-text uppercase tracking-wide mb-2">留言内容</label>
-                                <textarea id="message" required rows="4" class="w-full px-4 py-3 rounded bg-white border border-stone-200 focus:border-heritage-primary focus:outline-none transition-colors" placeholder="请详细描述您的需求..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-heritage-primary text-white font-bold py-3 px-6 rounded hover:bg-opacity-90 transition-transform transform active:scale-95 shadow-md">
-                                发送留言
-                            </button>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">发送留言</button>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- FOOTER -->
-        <footer class="bg-heritage-secondary text-stone-400 py-8 mt-12">
-            <div class="container mx-auto px-4 text-center">
-                <p class="font-serif text-lg text-white mb-2">云端博物 · 历史在指尖流淌</p>
-                <p class="text-sm">© 2024 文物保护 Web 前端课程设计小组. All rights reserved.</p>
-                <div class="mt-4 text-xs">
-                    <span>隐私政策</span> | <span>使用条款</span> | <span>网站地图</span>
-                </div>
+        <footer class="footer">
+            <div class="container">
+                <p style="color: white; font-size: 1.2rem; margin-bottom: 10px;">云端博物 · 历史在指尖流淌</p>
+                <p>© 2024 文物保护 Web 前端课程设计小组</p>
             </div>
         </footer>
 
     </main>
 
-    <!-- Modal Overlay -->
-    <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-70 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeModal()">
-        <div class="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all scale-95" id="modal-content" onclick="event.stopPropagation()">
-            <!-- Dynamic Content -->
-            <div class="relative">
-                <button onclick="closeModal()" class="absolute top-4 right-4 bg-stone-100 hover:bg-stone-200 rounded-full p-2 text-stone-600 transition-colors z-10">✕</button>
-                <div id="modal-body" class="p-0">
-                    <!-- JS fills this -->
-                </div>
-            </div>
+    <!-- 模态框 -->
+    <div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal()">
+        <div id="modal-content" class="modal-box" onclick="event.stopPropagation()">
+            <!-- JS 填充 -->
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- 逻辑脚本 -->
+    <script src="../js/background.js"></script>
     <script src="../js/script.js"></script>
 </body>
 </html>

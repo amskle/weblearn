@@ -1,0 +1,64 @@
+:root {
+    --primary: #8c4b31;       /* 陶土红 */
+    --secondary: #2c3e50;     /* 墨色 */
+    --accent: #d4af37;        /* 暗金 */
+    --bg-page: #f9f7f2;       /* 米纸色背景 */
+    --text-main: #4a4a4a;     /* 主要文字 */
+    --text-light: #6b7280;   
+    --white: #ffffff;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-800: #1f2937;
+    --purple-50: #faf5ff;
+    --purple-100: #f3e8ff;
+    --purple-600: #9333ea;
+}
+
+/* 基础重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden; /* 防止横向滚动条 */
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* 字体设置 */
+h1, h2, h3, h4, .font-serif {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--secondary);
+}
+
+/* 通用动画 */
+.fade-in { animation: fadeIn 0.8s ease-in-out; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 隐藏元素 */
+.hidden { display: none !important; }
+
+/* 加载圈 */
+.spinner {
+    border: 3px solid rgba(255,255,255,0.3);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-left-color: #fff;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }

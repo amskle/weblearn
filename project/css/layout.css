@@ -1,0 +1,162 @@
+/* 容器 */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 间距工具类 */
+.py-section {
+    padding: 60px 0;
+}
+
+.mb-large {
+    margin-bottom: 40px;
+}
+
+.mt-medium {
+    margin-top: 20px;
+}
+
+/* Flex 布局工具 */
+.flex-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 导航栏 */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid var(--gray-200);
+    backdrop-filter: blur(10px);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    margin-right: 10px;
+}
+
+.logo-text h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.logo-text p {
+    font-size: 0.75rem;
+    color: var(--primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-item {
+    font-weight: 500;
+    color: var(--secondary);
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    color: var(--primary);
+}
+
+/* 移动端菜单 */
+.mobile-toggle {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mobile-menu-box {
+    background: white;
+    border-top: 1px solid var(--gray-200);
+    padding: 20px;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu-box button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 0;
+    background: none;
+    border: none;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .mobile-toggle {
+        display: block;
+    }
+}
+
+/* 网格系统 */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.artifact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .grid-2, .grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 页脚 */
+.footer {
+    background-color: var(--secondary);
+    color: var(--gray-200);
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 60px;
+}

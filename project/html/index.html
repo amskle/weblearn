@@ -1,17 +1,26 @@
-
+<!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中华文物数字保护平台 | Digital Heritage</title>
+
+    <!-- 引入 Chart.js -->
     <script src="../js/chart.js"></script>
-    <script src="../js/tail.js"></script>
     <link rel="icon" href="../images/temple.png">
+    <!-- 引入 Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="../js/tail.js"></script>
+    <!-- 引入拆分后的 CSS 文件 -->
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/pages.css">
 </head>
+
 <body>
 
     <!-- 导航栏 -->
@@ -25,6 +34,8 @@
                     <p>Digital Heritage Guard</p>
                 </div>
             </div>
+
+            <!-- 桌面菜单 -->
             <div class="nav-links">
                 <button onclick="navigateTo('home')" class="nav-item btn-text">首页概览</button>
                 <button onclick="navigateTo('museum')" class="nav-item btn-text">文物详情</button>
@@ -32,19 +43,20 @@
                 <button onclick="navigateTo('tech')" class="nav-item btn-text">前沿技术</button>
                 <button onclick="navigateTo('contact')" class="btn btn-primary">联系我们</button>
             </div>
-        </div>
 
+        </div>
     </nav>
 
     <!-- 主内容区域 -->
     <main id="app-content">
-        
+
         <!-- 1. 首页 -->
         <section id="home" class="page-section fade-in">
             <!-- Banner -->
             <div class="hero-banner">
                 <img src="../images/back.jpg" alt="Architecture" class="hero-img">
-                <div class="hero-content">
+                <!-- 添加 scroll-hidden 实现滚动显现 -->
+                <div class="hero-content scroll-hidden">
                     <h2 class="hero-title">守护历史，传承文明</h2>
                     <p class="hero-subtitle">利用现代科技手段，数字化保存、修复和展示中华文明的瑰宝。</p>
                     <button onclick="navigateTo('museum')" class="btn btn-primary">探索数字馆藏</button>
@@ -53,7 +65,7 @@
 
             <!-- 仪表盘 -->
             <div class="container py-section">
-                <div class="mb-large" style="text-align: center;">
+                <div class="mb-large scroll-hidden" style="text-align: center;">
                     <h3>当前保护概况</h3>
                     <p style="color: var(--text-light);">数字化建档与修复进度概览。</p>
                 </div>
@@ -61,26 +73,27 @@
                 <div class="grid-2">
                     <!-- 统计数据 -->
                     <div class="grid-2" style="align-content: start;">
-                        <div class="stat-card primary">
+                        <!-- 添加 scroll-hidden -->
+                        <div class="stat-card primary scroll-hidden">
                             <div class="stat-num" style="color: var(--primary);">5,200+</div>
                             <div class="stat-label">已建档文物</div>
                         </div>
-                        <div class="stat-card accent">
+                        <div class="stat-card accent scroll-hidden" style="transition-delay: 0.1s;">
                             <div class="stat-num" style="color: var(--accent);">128</div>
                             <div class="stat-label">正在修复</div>
                         </div>
-                        <div class="stat-card secondary">
+                        <div class="stat-card secondary scroll-hidden" style="transition-delay: 0.2s;">
                             <div class="stat-num" style="color: var(--secondary);">98%</div>
                             <div class="stat-label">完好保存率</div>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat-card scroll-hidden" style="transition-delay: 0.3s;">
                             <div class="stat-num" style="color: var(--text-main);">350万</div>
                             <div class="stat-label">线上访问人次</div>
                         </div>
                     </div>
 
                     <!-- 图表 -->
-                    <div class="card">
+                    <div class="card scroll-hidden" style="transition-delay: 0.4s;">
                         <h4 style="text-align: center; margin-bottom: 20px;">文物完好度分布</h4>
                         <div class="chart-container">
                             <canvas id="preservationChart"></canvas>
@@ -93,30 +106,38 @@
         <!-- 2. 文物详情 (博物馆) -->
         <section id="museum" class="page-section hidden fade-in py-section">
             <div class="container">
-                <div class="mb-large" style="text-align: center;">
+                <div class="mb-large scroll-hidden" style="text-align: center;">
                     <h2>文物详情 · 数字博物馆</h2>
                     <!-- 过滤器 -->
                     <div class="flex-center mt-medium" style="gap: 10px; flex-wrap: wrap;">
                         <button onclick="filterArtifacts('all')" class="filter-btn active" data-filter="all">全部</button>
                         <button onclick="filterArtifacts('bronze')" class="filter-btn" data-filter="bronze">青铜器</button>
-                        <button onclick="filterArtifacts('ceramics')" class="filter-btn" data-filter="ceramics">陶瓷</button>
-                        <button onclick="filterArtifacts('painting')" class="filter-btn" data-filter="painting">书画</button>
+                        <button onclick="filterArtifacts('ceramics')" class="filter-btn"
+                            data-filter="ceramics">陶瓷</button>
+                        <button onclick="filterArtifacts('painting')" class="filter-btn"
+                            data-filter="painting">书画</button>
                         <button onclick="filterArtifacts('jade')" class="filter-btn" data-filter="jade">玉器</button>
                     </div>
                 </div>
 
                 <!-- JS 生成的网格 -->
-                <div id="artifact-grid" class="artifact-grid"></div>
+                <div id="artifact-grid" class="artifact-grid">
+                    <!-- JS 会在这里填充 .artifact-card -->
+                </div>
             </div>
         </section>
 
-        <!-- 3. 新闻动态 -->
+        <!-- 3. 新闻动态 (准备改为时间轴布局) -->
         <section id="news" class="page-section hidden fade-in py-section">
             <div class="container" style="max-width: 900px;">
-                <div class="mb-large" style="border-bottom: 1px solid var(--gray-200); padding-bottom: 20px;">
+                <div class="mb-large scroll-hidden"
+                    style="border-bottom: 1px solid var(--gray-200); padding-bottom: 20px;">
                     <h2>最近的新闻动态</h2>
+                    <p style="color: var(--text-light); font-size: 0.9rem;">记录文物保护的重要时刻</p>
                 </div>
-                <div id="news-container">
+                <!-- 增加了 timeline-container 类 -->
+                <div id="news-container" class="timeline-container">
+                    <!-- JS 将生成 .timeline-item 结构 -->
                 </div>
             </div>
         </section>
@@ -124,30 +145,31 @@
         <!-- 4. 前沿技术 -->
         <section id="tech" class="page-section hidden fade-in py-section" style="background-color: var(--gray-100);">
             <div class="container">
-                <div class="mb-large" style="text-align: center;">
+                <div class="mb-large scroll-hidden" style="text-align: center;">
                     <h2>科技赋能 · 文物新生</h2>
                 </div>
 
                 <div class="grid-2">
                     <div>
                         <!-- 特性列表 -->
-                        <div class="tech-feature">
+                        <div class="tech-feature scroll-hidden">
+                            <!-- .tech-icon 将应用 CSS 悬浮动画 -->
                             <div class="tech-icon">📡</div>
                             <div>
                                 <h4>LiDAR 激光雷达扫描</h4>
                                 <p style="font-size: 0.9rem; color: var(--text-light);">进行毫米级三维建模。</p>
                             </div>
                         </div>
-                        <div class="tech-feature">
+                        <div class="tech-feature scroll-hidden" style="transition-delay: 0.2s;">
                             <div class="tech-icon">🤖</div>
                             <div>
                                 <h4>AI 碎片虚拟拼接</h4>
                                 <p style="font-size: 0.9rem; color: var(--text-light);">深度学习算法自动匹配破碎陶片。</p>
                             </div>
                         </div>
-                        
+
                         <!-- 效率对比图表 -->
-                        <div class="card mt-medium">
+                        <div class="card mt-medium scroll-hidden" style="transition-delay: 0.3s;">
                             <h4 style="text-align: center; margin-bottom: 20px;">修复效率对比</h4>
                             <div class="chart-container">
                                 <canvas id="techChart"></canvas>
@@ -156,7 +178,7 @@
                     </div>
 
                     <!-- AI 顾问卡片 -->
-                    <div class="ai-card">
+                    <div class="ai-card scroll-hidden" style="transition-delay: 0.4s;">
                         <div class="ai-top-bar"></div>
                         <div class="ai-body">
                             <div class="ai-header">
@@ -166,12 +188,14 @@
                                     <span style="font-size: 0.8rem; color: var(--purple-600);">Virtual Assistant</span>
                                 </div>
                             </div>
-                            <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-light);">我是您的智能助手，请问有什么可以帮您？</p>
-                            
-                            <textarea id="ai-tech-input" rows="3" class="form-textarea" placeholder="例如：古代字画发黄了应该如何处理？"></textarea>
-                            
+                            <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-light);">
+                                我是您的智能助手，请问有什么可以帮您？</p>
+
+                            <textarea id="ai-tech-input" rows="3" class="form-textarea"
+                                placeholder="例如：古代字画发黄了应该如何处理？"></textarea>
+
                             <button onclick="askRestorationAI()" id="ai-tech-btn" class="btn btn-ai">开始咨询</button>
-                            
+
                             <div id="ai-tech-output" class="ai-output-box hidden"></div>
                         </div>
                     </div>
@@ -182,7 +206,7 @@
         <!-- 5. 联系我们 -->
         <section id="contact" class="page-section hidden fade-in py-section">
             <div class="container" style="max-width: 900px;">
-                <div class="contact-layout">
+                <div class="contact-layout scroll-hidden">
                     <div class="contact-info">
                         <h3 style="color: white; margin-bottom: 20px;">联系我们</h3>
                         <p style="margin-bottom: 10px;">📍 北京市东城区文博路8号</p>
@@ -204,11 +228,50 @@
                 </div>
             </div>
         </section>
-        
+
+        <!-- 升级版复杂页脚 (Complex Footer) -->
         <footer class="footer">
-            <div class="container">
-                <p style="color: white; font-size: 1.2rem; margin-bottom: 10px;">云端博物 · 历史在指尖流淌</p>
-                <p>© 2024 文物保护 Web 前端课程设计小组</p>
+            <div class="container footer-grid">
+                <!-- 第一列：关于 -->
+                <div class="footer-col">
+                    <h4 class="footer-title">关于云端博物</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">项目背景</a></li>
+                        <li><a href="#">团队介绍</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                    </ul>
+                </div>
+                <!-- 第二列：探索 -->
+                <div class="footer-col">
+                    <h4 class="footer-title">探索发现</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">数字展厅</a></li>
+                        <li><a href="#">文创周边</a></li>
+                        <li><a href="#">历史时间轴</a></li>
+                    </ul>
+                </div>
+                <!-- 第三列：资源 -->
+                <div class="footer-col">
+                    <h4 class="footer-title">学术资源</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">修复报告下载</a></li>
+                        <li><a href="#">3D 模型库</a></li>
+                        <li><a href="#">API 开放平台</a></li>
+                    </ul>
+                </div>
+                <!-- 第四列：关注 -->
+                <div class="footer-col">
+                    <h4 class="footer-title">关注我们</h4>
+                    <div class="footer-social">
+                        <span class="social-icon">WeChat</span>
+                        <span class="social-icon">Weibo</span>
+                    </div>
+                    <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">订阅我们的新闻周刊，获取最新文保资讯。</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>云端博物 · 历史在指尖流淌</p>
+                <p style="font-size: 0.8rem; margin-top: 5px;">© 2024 文物保护 Web 前端课程设计小组. All rights reserved.</p>
             </div>
         </footer>
 
@@ -225,4 +288,5 @@
     <script src="../js/background.js"></script>
     <script src="../js/script.js"></script>
 </body>
+
 </html>

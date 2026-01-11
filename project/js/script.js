@@ -1,41 +1,4 @@
-
-// --- 0. GEMINI API CONFIG ---
-const apiKey = ""; // Runtime Environment will provide key
-
-async function callGeminiAPI(prompt) {
-    if (!apiKey) {
-        console.warn("API Key missing (simulating logic for demo if needed, but intended for real env)");
-        // Just in case we are in a no-key env, we might want to fail gracefully or show mock
-        // return "API Key not configured."; 
-    }
-
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }]
-    };
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data.candidates?.[0]?.content?.parts?.[0]?.text || "抱歉，我暂时无法回答这个问题。";
-    } catch (error) {
-        console.error("Gemini API Error:", error);
-        return "网络连接异常，请稍后重试。";
-    }
-}
-
-// --- 1. DATA STORAGE ---
-
-// Artifact Data
+// 文物数据
 const artifacts = [
     {
         id: 1,
@@ -119,7 +82,7 @@ const artifacts = [
     }
 ];
 
-// News Data
+// 新闻数据
 const newsData = [
     {
         "id": 1,
@@ -165,14 +128,18 @@ const newsData = [
     }
 ]
 
-// --- 2. INITIALIZATION & RENDERING ---
+
+// --- 2. 初始化 ---
 
 document.addEventListener('DOMContentLoaded', () => {
     initCharts();
     renderArtifacts(artifacts);
     renderNews();
+    
+    // 初始化滚动监听器 (Intersection Observer)
+    initScrollObserver();
 
-    // Mobile Menu Toggle
+    // 移动端菜单切换
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
     btn.addEventListener('click', () => {
@@ -180,76 +147,170 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// --- 3. NAVIGATION ---
+// --- 新增：滚动显现动画逻辑 ---
+function initScrollObserver() {
+    const observerOptions = {
+        root: null, // 视口作为根
+        threshold: 0.1, // 元素出现 10% 时触发
+        rootMargin: "0px" 
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // 当元素进入视口，添加 .scroll-show 类
+                entry.target.classList.add('scroll-show');
+                // 动画只播放一次，所以取消监听
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // 选取所有带有 .scroll-hidden 类的元素进行监听
+    document.querySelectorAll('.scroll-hidden').forEach((el) => {
+        observer.observe(el);
+    });
+}
+
+
+// --- 3. 导航逻辑 ---
 
 function navigateTo(sectionId) {
-    // Hide all sections
     const sections = document.querySelectorAll('.page-section');
     sections.forEach(sec => {
         sec.classList.add('hidden');
     });
 
-    // Show selected section
     const activeSection = document.getElementById(sectionId);
     if (activeSection) {
         activeSection.classList.remove('hidden');
-        // Re-trigger animations
+        // 重置动画 (可选)
         activeSection.classList.remove('fade-in');
-        void activeSection.offsetWidth; // Trigger reflow
+        void activeSection.offsetWidth; 
         activeSection.classList.add('fade-in');
     }
 
-    // Close mobile menu if open
     document.getElementById('mobile-menu').classList.add('hidden');
-
-    // Scroll to top
     window.scrollTo(0, 0);
 }
 
-// --- 4. ARTIFACT LOGIC (Museum) ---
+
+// --- 4. 模拟 AI 智能逻辑 (无需联网) ---
+
+function getLocalAIResponse(keyword) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            let responseText = "";
+
+            if (keyword.includes("四羊方尊")) {
+                responseText = "四羊方尊最神奇的地方在于它的铸造工艺。商代工匠使用'分铸法'，先分别铸好四个羊头，再放入模具与尊身一起浇铸。这种技术在3000多年前简直是黑科技！";
+            } else if (keyword.includes("翠玉白菜")) {
+                responseText = "这棵白菜其实是'变废为宝'的典范。原本这块玉石有白有绿，甚至还有裂纹（就在菜帮位置），工匠巧妙地利用颜色分布，把瑕疵变成了菜叶的自然纹理。";
+            } else if (keyword.includes("青花瓷")) {
+                responseText = "这件青花瓷使用的是进口的'苏麻离青'料，这种颜料含铁量高，烧制后会有自然的黑褐色斑点，行话叫'晕散'，是明代永乐宣德时期青花瓷的典型特征。";
+            } else if (keyword.includes("千里江山")) {
+                responseText = "这幅画的颜色之所以千年不退，是因为用了昂贵的矿物颜料：石青和石绿（就是孔雀石和蓝铜矿磨成的粉）。但也因为颜料层很厚，每次展开都会轻微掉渣，所以极少展出。";
+            } else if (keyword.includes("修复")) {
+                responseText = "这是一个非常专业的文保问题。针对这种情况，如果是青铜器有害锈（粉状锈），我们通常采用物理打磨配合倍半碳酸钠浸泡法；如果是纸张酸化发黄，则需要通过弱碱性溶液进行脱酸处理。";
+            } else {
+                responseText = "这是一件非常珍贵的文物。通过现代数字扫描技术，我们建立它的高精度三维模型，哪怕它由于岁月侵蚀发生微小变化，我们也能第一时间监测到。";
+            }
+            
+            resolve(responseText);
+        }, 1000); 
+    });
+}
+
+// 文物导览 AI
+async function generateAIStory(name, period, btn) {
+    const outputDiv = btn.nextElementSibling;
+    const originalText = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> 正在查找资料...`;
+    outputDiv.classList.add('hidden');
+
+    const result = await getLocalAIResponse(name); 
+
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    outputDiv.innerHTML = `<strong>✨ 导览员解说：</strong><br>${result}`;
+    outputDiv.classList.remove('hidden');
+}
+
+// 技术顾问 AI
+async function askRestorationAI() {
+    const input = document.getElementById('ai-tech-input');
+    const output = document.getElementById('ai-tech-output');
+    const btn = document.getElementById('ai-tech-btn');
+    const userQuestion = input.value.trim();
+
+    if (!userQuestion) {
+        alert("请输入您的问题！");
+        return;
+    }
+
+    const originalBtnText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> 查询专家库...`;
+    output.classList.add('hidden');
+
+    const result = await getLocalAIResponse("修复"); 
+
+    btn.innerHTML = originalBtnText;
+    btn.disabled = false;
+    output.innerHTML = `<strong>💡 专家解答：</strong><br>${result}`;
+    output.classList.remove('hidden');
+}
+
+
+// --- 5. 文物展示逻辑 ---
 
 function renderArtifacts(data) {
     const grid = document.getElementById('artifact-grid');
     grid.innerHTML = '';
 
-    data.forEach(item => {
+    data.forEach((item, index) => {
         const card = document.createElement('div');
-        card.className = "bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer border border-stone-100 group";
+        // 添加 scroll-hidden 类，并设置延迟，实现错落出现的动画效果
+        card.className = "artifact-card scroll-hidden"; 
+        card.style.transitionDelay = `${index * 0.1}s`; 
         card.onclick = () => openModal(item);
-
+        
         card.innerHTML = `
-                    <div class="h-48 overflow-hidden relative">
-                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
-                            ${getCategoryName(item.category)}
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-serif text-xl font-bold text-heritage-secondary mb-1">${item.name}</h3>
-                        <p class="text-sm text-heritage-primary mb-2">${item.period}</p>
-                        <p class="text-stone-500 text-sm line-clamp-2">${item.desc}</p>
-                        <div class="mt-3 text-xs text-stone-400 border-t pt-2 flex justify-between">
-                            <span>点击查看详情</span>
-                            <span>➔</span>
-                        </div>
-                    </div>
-                `;
+            <div class="card-img-wrapper">
+                <img src="${item.image}" alt="${item.name}" class="card-img">
+                <div class="card-tag">
+                    ${getCategoryName(item.category)}
+                </div>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">${item.name}</h3>
+                <p class="card-period">${item.period}</p>
+                <p class="card-desc">${item.desc}</p>
+                <div style="margin-top: 15px; border-top: 1px solid #f0f0f0; padding-top: 10px; font-size: 0.8rem; color: #999; display: flex; justify-content: space-between;">
+                    <span>点击查看详情</span>
+                    <span>➔</span>
+                </div>
+            </div>
+        `;
         grid.appendChild(card);
     });
+    
+    // 渲染后立即触发一次观察，确保新元素被监听
+    initScrollObserver();
 }
 
 function filterArtifacts(category) {
-    // Update UI buttons
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => {
-        if (btn.dataset.filter === category) {
-            btn.classList.add('bg-heritage-primary', 'text-white', 'border-transparent');
+        if(btn.dataset.filter === category) {
+            btn.classList.add('active');
         } else {
-            btn.classList.remove('bg-heritage-primary', 'text-white', 'border-transparent');
+            btn.classList.remove('active');
         }
     });
 
-    // Filter Data
     if (category === 'all') {
         renderArtifacts(artifacts);
     } else {
@@ -268,165 +329,98 @@ function getCategoryName(cat) {
     return map[cat] || '其他';
 }
 
-// --- 5. NEWS LOGIC ---
 
-function renderNews() {
-    const container = document.getElementById('news-container');
-    container.innerHTML = '';
-
-    newsData.forEach(item => {
-        const article = document.createElement('div');
-        article.className = "bg-white border-l-4 border-stone-300 pl-6 py-2 transition-all hover:border-heritage-primary";
-        article.innerHTML = `
-                    <div class="flex justify-between items-start cursor-pointer" onclick="toggleNews(${item.id})">
-                        <div>
-                            <h3 class="text-xl font-bold text-heritage-secondary hover:text-heritage-primary transition-colors">${item.title}</h3>
-                            <div class="text-xs text-stone-400 mt-1 mb-2">发布日期: ${item.date}</div>
-                        </div>
-                        <span id="news-icon-${item.id}" class="text-2xl text-stone-300 transform transition-transform">+</span>
-                    </div>
-                    <p class="text-stone-600 mb-2">${item.summary}</p>
-                    <div id="news-content-${item.id}" class="hidden mt-4 text-stone-800 bg-stone-50 p-4 rounded text-sm leading-relaxed border border-stone-100">
-                        ${item.content}
-                    </div>
-                `;
-        container.appendChild(article);
-    });
-}
-
-function toggleNews(id) {
-    const content = document.getElementById(`news-content-${id}`);
-    const icon = document.getElementById(`news-icon-${id}`);
-
-    if (content.classList.contains('hidden')) {
-        content.classList.remove('hidden');
-        icon.textContent = '-';
-        icon.classList.add('text-heritage-primary');
-    } else {
-        content.classList.add('hidden');
-        icon.textContent = '+';
-        icon.classList.remove('text-heritage-primary');
-    }
-}
-
-// --- 6. MODAL SYSTEM & AI FEATURE #1 (AI GUIDE) ---
+// --- 6. 模态框逻辑 ---
 
 function openModal(item) {
     const modal = document.getElementById('modal-overlay');
-    const body = document.getElementById('modal-body');
+    const content = document.getElementById('modal-content');
+    
+    content.innerHTML = `
+        <button onclick="closeModal()" class="close-modal-btn">✕</button>
+        <div class="modal-img-area">
+            <img src="${item.image}" class="modal-img">
+        </div>
+        <div class="modal-info-area">
+            <div style="margin-bottom: 15px;">
+                <span style="background: var(--primary); color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">
+                    ${getCategoryName(item.category)} · ${item.period}
+                </span>
+            </div>
+            <h2 style="font-size: 2rem; margin-bottom: 20px;">${item.name}</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="font-weight: bold; color: var(--text-light); font-size: 0.9rem; text-transform: uppercase;">文物描述</h4>
+                <p style="line-height: 1.6;">${item.desc}</p>
+            </div>
+            
+            <div style="background: var(--gray-100); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <h4 style="font-weight: bold; color: var(--primary); font-size: 0.9rem;">修复档案</h4>
+                <p style="font-size: 0.9rem; margin-top: 5px;">${item.details}</p>
+                <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-light);">状态: ${item.status}</div>
+            </div>
 
-    body.innerHTML = `
-                <div class="flex flex-col md:flex-row">
-                    <div class="md:w-1/2 h-64 md:h-auto">
-                        <img src="${item.image}" class="w-full h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-tr-none">
-                    </div>
-                    <div class="p-8 md:w-1/2 flex flex-col justify-center max-h-[90vh] overflow-y-auto">
-                        <div class="inline-block px-3 py-1 bg-heritage-primary text-white text-xs rounded-full w-fit mb-4">
-                            ${getCategoryName(item.category)} • ${item.period}
-                        </div>
-                        <h2 class="font-serif text-3xl font-bold text-heritage-secondary mb-4">${item.name}</h2>
-                        
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-bold text-sm uppercase text-stone-400">文物描述</h4>
-                                <p class="text-stone-700 leading-relaxed">${item.desc}</p>
-                            </div>
-                            
-                            <div class="bg-stone-50 p-4 rounded border border-stone-200">
-                                <h4 class="font-bold text-sm uppercase text-heritage-primary mb-1">数字化档案 / 修复记录</h4>
-                                <p class="text-sm text-stone-600">${item.details}</p>
-                                <div class="mt-2 text-xs font-mono text-stone-400">当前状态: ${item.status}</div>
-                            </div>
-
-                            <!-- GEMINI FEATURE: AI GUIDE BUTTON -->
-                            <div class="pt-4 border-t border-dashed border-stone-300">
-                                <button onclick="generateAIStory('${item.name}', '${item.period}', this)" class="w-full py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded hover:opacity-90 transition shadow flex justify-center items-center text-sm font-bold">
-                                    <span>✨ 生成 AI 智能解说</span>
-                                </button>
-                                <div id="ai-story-output" class="hidden mt-3 p-3 bg-purple-50 text-stone-700 text-sm rounded border border-purple-100 leading-relaxed"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
+            <div style="border-top: 1px dashed var(--gray-200); padding-top: 20px;">
+                <button onclick="generateAIStory('${item.name}', '${item.period}', this)" style="width: 100%; background: linear-gradient(to right, #9333ea, #4f46e5); color: white; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                    ✨ 生成 AI 智能解说
+                </button>
+                <div class="hidden" style="margin-top: 15px; background: var(--purple-50); padding: 15px; border-radius: 6px; font-size: 0.9rem; line-height: 1.6;"></div>
+            </div>
+        </div>
+    `;
+    
     modal.classList.remove('hidden');
-    setTimeout(() => {
-        document.getElementById('modal-content').classList.remove('scale-95');
-        document.getElementById('modal-content').classList.add('scale-100');
-    }, 10);
-}
-
-async function generateAIStory(name, period, btn) {
-    const outputDiv = btn.nextElementSibling;
-    const originalText = btn.innerHTML;
-
-    // UI Loading State
-    btn.disabled = true;
-    btn.innerHTML = `<span class="spinner border-white border-l-transparent"></span> 正在生成历史故事...`;
-    outputDiv.classList.add('hidden');
-    outputDiv.innerHTML = '';
-
-    const prompt = `你是专业的博物馆金牌导览员。请为观众介绍一件【${period}】的文物【${name}】。请用生动、有趣、略带故事性的语言，介绍它的历史背景、艺术价值或可能发生的历史趣事。字数控制在150字以内。`;
-
-    // Call API
-    const result = await callGeminiAPI(prompt);
-
-    // Update UI
-    btn.innerHTML = originalText;
-    btn.disabled = false;
-    outputDiv.innerHTML = `<strong>✨ AI 导览员：</strong><br>${result}`;
-    outputDiv.classList.remove('hidden');
 }
 
 function closeModal() {
     const modal = document.getElementById('modal-overlay');
-    const content = document.getElementById('modal-content');
-
-    content.classList.remove('scale-100');
-    content.classList.add('scale-95');
-
-    setTimeout(() => {
-        modal.classList.add('hidden');
-    }, 150);
+    modal.classList.add('hidden');
 }
 
-// --- 7. AI FEATURE #2 (RESTORATION CONSULTANT) ---
 
-async function askRestorationAI() {
-    const input = document.getElementById('ai-tech-input');
-    const output = document.getElementById('ai-tech-output');
-    const btn = document.getElementById('ai-tech-btn');
-    const userQuestion = input.value.trim();
+// --- 7. 新闻逻辑 (修改为时间轴结构) ---
 
-    if (!userQuestion) {
-        alert("请输入您的问题！");
-        return;
+function renderNews() {
+    const container = document.getElementById('news-container');
+    container.innerHTML = '';
+    
+    newsData.forEach((item, index) => {
+        const article = document.createElement('div');
+        // 使用时间轴类名，并添加滚动显现
+        article.className = "timeline-item scroll-hidden";
+        article.style.transitionDelay = `${index * 0.2}s`;
+        
+        article.innerHTML = `
+            <div class="timeline-date">${item.date}</div>
+            <div class="timeline-title" onclick="toggleNews(${item.id})">${item.title}</div>
+            <div class="timeline-summary">${item.summary}</div>
+            
+            <!-- 展开详情区域 -->
+            <div id="news-content-${item.id}" class="timeline-content-box hidden">
+                ${item.content}
+            </div>
+        `;
+        container.appendChild(article);
+    });
+
+    // 重新初始化监听，以捕获新生成的新闻条目
+    initScrollObserver();
+}
+
+function toggleNews(id) {
+    const content = document.getElementById(`news-content-${id}`);
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+    } else {
+        content.classList.add('hidden');
     }
-
-    // UI Loading State
-    const originalBtnText = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = `<span class="spinner border-white border-l-transparent"></span> AI 思考中...`;
-    output.classList.add('hidden');
-
-    const prompt = `你是一位资深的文物修复专家和数字文保技术顾问。用户问了一个关于文物保护的问题：“${userQuestion}”。请用专业但通俗易懂的语言回答，可以结合传统修复工艺和现代科技手段。字数控制在200字左右。`;
-
-    // Call API
-    const result = await callGeminiAPI(prompt);
-
-    // Update UI
-    btn.innerHTML = originalBtnText;
-    btn.disabled = false;
-    output.innerHTML = `<strong>💡 专家解答：</strong><br>${result}`;
-    output.classList.remove('hidden');
 }
 
 
-// --- 8. CHARTS (Chart.js) ---
+// --- 8. 图表初始化 ---
 
 function initCharts() {
-    // Home: Preservation Status Chart
+    // 首页图表
     const ctx1 = document.getElementById('preservationChart').getContext('2d');
     new Chart(ctx1, {
         type: 'doughnut',
@@ -447,7 +441,7 @@ function initCharts() {
         }
     });
 
-    // Tech: Efficiency Chart
+    // 技术页图表
     const ctx2 = document.getElementById('techChart').getContext('2d');
     new Chart(ctx2, {
         type: 'bar',
@@ -479,23 +473,22 @@ function initCharts() {
     });
 }
 
-// --- 9. CONTACT FORM ---
+
+// --- 9. 联系表单 ---
 
 function handleContactSubmit(e) {
     e.preventDefault();
-    const name = document.getElementById('name').value;
     const btn = e.target.querySelector('button');
     const originalText = btn.innerText;
 
     btn.innerText = "发送中...";
     btn.disabled = true;
 
-    // Simulate Network Request
+    // 模拟发送延迟
     setTimeout(() => {
-        alert(`感谢您的留言，${name}！\n我们已收到您的信息，工作人员将在3个工作日内联系您。`);
+        alert(`留言发送成功！`);
         e.target.reset();
         btn.innerText = originalText;
         btn.disabled = false;
     }, 1000);
 }
-

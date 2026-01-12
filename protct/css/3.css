@@ -1,0 +1,167 @@
+/* 变量定义 */
+:root {
+    --primary-red: #8b1b1b;
+    --cyan-glow: #00f2ff;
+    --dark-lab: #1a1a1a;
+    --gold: #c5a059;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--dark-lab); /* 实验室采用深色调 */
+    color: #e0e0e0;
+    font-family: 'Noto Serif SC', serif;
+    overflow-x: hidden;
+}
+
+/* 导航复用 */
+.main-header { background: rgba(139, 27, 27, 0.95); padding: 12px 0; border-bottom: 1px solid var(--gold); }
+.container { width: 90%; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+.nav-links { list-style: none; display: flex; }
+.nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.9rem; }
+.nav-links a.active { color: var(--gold); }
+
+/* --- 【知识点：3D变形 Hero区】 --- */
+.lab-hero {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 10%;
+    background: radial-gradient(circle at center, #2c3e50 0%, #1a1a1a 100%);
+    position: relative;
+}
+
+.lab-intro { max-width: 500px; }
+.lab-tag { color: var(--cyan-glow); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; }
+.lab-intro h1 { font-size: 3rem; margin: 15px 0; color: #fff; }
+.lab-intro p { color: #aaa; line-height: 1.8; }
+
+/* 3D立方体模拟文物展示台 */
+.stage-3d {
+    perspective: 1000px; /* 透视效果 */
+}
+
+.artifact-box-3d {
+    width: 200px; height: 200px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotateBox 15s infinite linear;
+}
+
+.side {
+    position: absolute; width: 200px; height: 200px;
+    border: 2px solid var(--cyan-glow);
+    background: rgba(0, 242, 255, 0.1);
+    backdrop-filter: blur(2px);
+}
+
+.front { transform: translateZ(100px); background: url('https://images.unsplash.com/photo-1599839619722-397514112634?w=200') center/cover; }
+.back  { transform: rotateY(180deg) translateZ(100px); }
+.left  { transform: rotateY(-90deg) translateZ(100px); }
+.right { transform: rotateY(90deg) translateZ(100px); }
+
+@keyframes rotateBox {
+    from { transform: rotateY(0) rotateX(20deg); }
+    to { transform: rotateY(360deg) rotateX(20deg); }
+}
+
+/* --- 【知识点：扫描对比交互】 --- */
+.lab-main { padding: 80px 0; }
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-header h2 { color: var(--gold); font-size: 2rem; }
+
+.compare-container {
+    width: 500px; height: 500px;
+    margin: 0 auto;
+    position: relative;
+    border: 10px solid #333;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.artifact-original {
+    width: 100%; height: 100%;
+    /* 模拟旧图：黑白+颗粒感 */
+    background: url('../images/tu2.png') center/cover;
+    filter: grayscale(1) contrast(1.2);
+}
+
+.artifact-restored {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('../images/tu1.png') center/cover;
+    /* 关键交互：初始宽度为0，悬停显示全部 */
+    width: 0%; 
+    transition: width 1s ease-in-out;
+    border-right: 3px solid var(--cyan-glow);
+    z-index: 2;
+}
+
+.compare-container:hover .artifact-restored {
+    width: 100%; /* 鼠标经过展示修复后结果 */
+}
+
+/* 扫描线动画 */
+.scan-bar {
+    position: absolute; top: 0; left: -10px;
+    width: 5px; height: 100%;
+    background: var(--cyan-glow);
+    box-shadow: 0 0 15px var(--cyan-glow);
+    animation: scanning 4s infinite linear;
+    z-index: 3;
+}
+
+@keyframes scanning {
+    0% { left: 0%; }
+    100% { left: 100%; }
+}
+
+/* --- 【知识点：定位布局卡片】 --- */
+.process-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 80px;
+    padding: 0 5%;
+}
+
+.process-card {
+    background: #252525;
+    padding: 30px;
+    width: 300px;
+    position: relative;
+    border-top: 4px solid var(--primary-red);
+    transition: 0.3s;
+}
+
+.process-card:hover { background: #333; transform: scale(1.05); }
+
+.num {
+    position: absolute; top: -20px; right: 20px;
+    font-size: 3rem; font-weight: bold;
+    color: rgba(255, 255, 255, 0.05); /* 背景装饰数字 */
+}
+
+.process-card h3 { color: var(--gold); margin-bottom: 15px; }
+.process-card p { font-size: 0.9rem; color: #999; line-height: 1.6; }
+
+/* 页脚 */
+.main-footer {
+    background-color: #1a1a1a;
+    color: #888;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.footer-tags {
+    margin-top: 1rem;
+}
+
+.footer-tags span {
+    margin: 0 10px;
+    font-size: 0.8rem;
+    border: 1px solid #444;
+    padding: 2px 8px;
+}

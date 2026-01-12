@@ -1,0 +1,100 @@
+:root {
+    --primary-red: #8b1b1b;
+    --gold: #c5a059;
+    --paper: #fdfaf5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #f0e6d6 url('../images/bei.png');
+    font-family: 'Noto Serif SC', serif;
+}
+
+/* 导航复用 */
+.main-header { background: var(--primary-red); padding: 12px 0; }
+.container { width: 90%; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+.nav-links { list-style: none; display: flex; }
+.nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.9rem; }
+.nav-links a.active { color: var(--gold); }
+
+/* 表单页布局 */
+.form-page { max-width: 700px; margin: 60px auto; padding: 0 20px; }
+.form-header { text-align: center; margin-bottom: 40px; }
+.form-header h2 { color: var(--primary-red); font-size: 2.2rem; }
+.form-header p { color: #666; margin-top: 10px; font-style: italic; }
+
+.form-container {
+    background: var(--paper);
+    padding: 40px;
+    border: 1px solid #d4c5a9;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--primary-red); }
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-family: inherit;
+    border-radius: 2px;
+}
+
+.form-group input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 5px rgba(197, 160, 89, 0.3); }
+
+.form-options { margin: 25px 0; font-size: 0.9rem; }
+
+button {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary-red);
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover { background: #6b1515; }
+
+/* 反馈状态样式 */
+.hidden { display: none; }
+.feedback-area {
+    margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    background: #fcfcfc;
+    border: 1px dashed var(--gold);
+}
+
+.loader {
+    width: 30px; height: 30px;
+    border: 4px solid #eee;
+    border-top: 4px solid var(--gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+.main-footer {
+    background-color: #1a1a1a;
+    color: #888;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.footer-tags {
+    margin-top: 1rem;
+}
+
+.footer-tags span {
+    margin: 0 10px;
+    font-size: 0.8rem;
+    border: 1px solid #444;
+    padding: 2px 8px;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }

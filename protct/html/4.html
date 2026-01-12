@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面四：守护者计划 - 逻辑表单与交互</title>
+    <link rel="stylesheet" href="../css/4.css">
+    <link rel="icon" href="../images/标签_文物保护单位.svg">
+</head>
+<body>
+
+    <!-- 导航栏复用 -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <span class="icon">⛩️</span> 中国文物守护
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="1.html">概览</a></li>
+                    <li><a href="2.html">珍宝馆</a></li>
+                    <li><a href="3.html">修复室</a></li>
+                    <li><a href="4.html" class="active">加入我们</a></li>
+                    <li><a href="5.html">数字探秘</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="form-page">
+        <section class="form-header">
+            <h2>守护者招募登记</h2>
+            <p>每一份力量都是对文明最深情的告白。请填写以下信息，加入文物保护志愿者队伍。</p>
+        </section>
+
+        <!-- 【知识点：表单操作】 -->
+        <div class="form-container">
+            <form id="guardianForm">
+                <div class="form-group">
+                    <label for="username">姓名：</label>
+                    <input type="text" id="username" name="username" placeholder="请输入您的真实姓名" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">联系邮箱：</label>
+                    <input type="email" id="email" name="email" placeholder="example@culture.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">参与方向：</label>
+                    <select id="role" name="role">
+                        <option value="">-- 请选择 --</option>
+                        <option value="guide">博物馆讲解</option>
+                        <option value="tech">数字化采集辅助</option>
+                        <option value="clean">古建筑日常维护</option>
+                        <option value="promo">文化内容宣传</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="motivation">加入初衷：</label>
+                    <textarea id="motivation" name="motivation" rows="4" placeholder="请简述您对文物保护的看法..."></textarea>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreement" required> 我已阅读并同意《文物保护志愿者准则》
+                    </label>
+                </div>
+
+                <button type="submit" id="submitBtn">提交申请</button>
+            </form>
+
+            <!-- 状态反馈区 -->
+            <div id="feedback" class="feedback-area hidden">
+                <div class="loader"></div>
+                <p id="feedbackMsg">正在连接博物馆系统...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-content">
+            <p>© 2025 文物保护专题教育项目 | 传承文化 · 守护历史</p>
+            <div class="footer-tags">
+                <span>#数字化保护</span>
+                <span>#非遗传承</span>
+                <span>#博物馆教育</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 引入外部脚本 -->
+    <script src="../js/4.js"></script>
+</body>
+</html>

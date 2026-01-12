@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面三：数字修复实验室 - 交互动效展示</title>
+    <link rel="stylesheet" href="../css/3.css">
+    <link rel="icon" href="../images/标签_文物保护单位.svg">
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <span class="icon">⛩️</span> 中国文物守护
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="1.html">概览</a></li>
+                    <li><a href="2.html">珍宝馆</a></li>
+                    <li><a href="3.html" class="active">修复室</a></li>
+                    <li><a href="4.html">关于我们</a></li>
+                    <li><a href="5.html">数字探秘</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 【知识点：3D变形与定位】 - 主展示区 -->
+    <section class="lab-hero">
+        <div class="lab-intro">
+            <span class="lab-tag">Digital Lab</span>
+            <h1>数字修复·唤醒尘封</h1>
+            <p>利用高精度三维建模与纹理映射技术，让残缺的文物在数字世界中重获新生。</p>
+        </div>
+        
+        <!-- 3D展示展示盒子 -->
+        <div class="stage-3d">
+            <div class="artifact-box-3d">
+                <div class="side front"></div>
+                <div class="side back"></div>
+                <div class="side left"></div>
+                <div class="side right"></div>
+            </div>
+            <div class="base-shadow"></div>
+        </div>
+    </section>
+
+    <main class="lab-main">
+        <!-- 【知识点：混合模式与扫描动画】 - 修复对比区 -->
+        <section class="restoration-interactive">
+            <div class="section-header">
+                <h2>智能修复对比系统</h2>
+                <p>鼠标悬停以查看数字化修复后的细节呈现</p>
+            </div>
+
+            <div class="compare-container">
+                <div class="artifact-original">
+                    <!-- 原始破损图背景 -->
+                    <div class="artifact-restored"></div> <!-- 修复后的图 -->
+                    <div class="scan-bar"></div> <!-- 扫描线动画 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 【知识点：浮动布局与定位装饰】 - 修复步骤区 -->
+        <section class="process-grid">
+            <div class="process-card">
+                <div class="num">01</div>
+                <h3>数据采集</h3>
+                <p>采用工业级3D激光扫描仪进行非接触式扫描。</p>
+            </div>
+            <div class="process-card">
+                <div class="num">02</div>
+                <h3>几何重建</h3>
+                <p>通过点云数据进行网格重构与模型优化。</p>
+            </div>
+            <div class="process-card">
+                <div class="num">03</div>
+                <h3>纹理修复</h3>
+                <p>基于人工智能学习算法填补色彩与纹理残缺。</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-content">
+            <p>© 2025 文物保护专题教育项目 | 传承文化 · 守护历史</p>
+            <div class="footer-tags">
+                <span>#数字化保护</span>
+                <span>#非遗传承</span>
+                <span>#博物馆教育</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+/* 【知识点：模块化变量定义】 */
+:root {
+    --primary-red: #8b1b1b;
+    --gold: #d4af37;
+    --dark-gray: #333333;
+    /* 核心要求：半灰色背景 */
+    --overlay-bg: rgba(45, 45, 45, 0.7); 
+    --white: #ffffff;
+    --transition: all 0.3s ease;
+}
+
+/* 基础重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Serif SC', serif;
+    background-color: #f9f9f9;
+    color: var(--dark-gray);
+    line-height: 1.6;
+}
+
+/* Banner 样式 */
+.main-header {
+    background-color: var(--primary-red);
+    color: var(--white);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 2rem;
+}
+
+.nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--gold);
+}
+
+/* 【知识点：背景图与半灰文字背景】 */
+.hero-section {
+    height: 85vh; /* 知识点：单位计算 vh */
+    width: 100%;
+    /* 预留背景图：你可以替换为具体的文物大图URL */
+    background-image: url('../images/dwada.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* 视差效果 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.text-overlay {
+    background-color: var(--overlay-bg);
+    padding: 2.5rem;
+    border-radius: 8px;
+    max-width: 800px;    /* 稍微放宽宽度，让文字不那么拥挤 */
+    max-height: 70vh;    /* 限制高度 */
+    overflow-y: auto;    /* 溢出滚动 */
+    text-align: center;
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    
+    /* 美化滚动条 (仅限 Chrome/Safari) */
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) transparent;
+}
+
+/* 针对 Webkit 浏览器的滚动条样式 */
+.text-overlay::-webkit-scrollbar {
+    width: 6px;
+}
+.text-overlay::-webkit-scrollbar-thumb {
+    background-color: var(--gold);
+    border-radius: 10px;
+}
+/* .text-overlay h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--gold);
+}
+
+
+.text-overlay p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+} */
+
+/* 按钮样式 - 知识点：无障碍焦点 */
+.btn-primary {
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    background-color: #a52323;
+    transform: translateY(-2px);
+}
+
+/* Footer 样式 */
+.main-footer {
+    background-color: #1a1a1a;
+    color: #888;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.footer-tags {
+    margin-top: 1rem;
+}
+
+.footer-tags span {
+    margin: 0 10px;
+    font-size: 0.8rem;
+    border: 1px solid #444;
+    padding: 2px 8px;
+}

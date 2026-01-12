@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面二：国宝珍藏馆 - 盒子模型与列表应用</title>
+    <!-- 引入外部样式表 -->
+    <link rel="stylesheet" href="../css/2.css">
+    <link rel="icon" href="../images/标签_文物保护单位.svg">
+</head>
+<body>
+
+    <!-- 复用页面一的紧凑型 Banner -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <span class="icon">⛩️</span> 中国文物守护
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="1.html">概览</a></li>
+                    <li><a href="2.html" class="active">珍宝馆</a></li>
+                    <li><a href="3.html">修复室</a></li>
+                    <li><a href="4.html">关于我们</a></li>
+                    <li><a href="5.html">数字探秘</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="gallery-container">
+        <section class="page-title">
+            <h2>馆藏珍品展示</h2>
+            
+        </section>
+
+        <!-- 【知识点：列表布局与盒子模型】 -->
+        <ul class="artifact-grid">
+            <!-- 物品 1 -->
+            <li class="artifact-card">
+                <div class="card-image item-1">
+                    <span class="tag">青铜器</span>
+                </div>
+                <div class="card-content">
+                    <h3>四羊方尊</h3>
+                    <p>中国现存商代青铜器中最大的方尊，被誉为“臻于极致的青铜典范”，是公认的镇国之宝。</p>
+                    <div class="card-footer">
+                        <span class="period">商代晚期</span>
+                        <a href="#" class="view-btn">查看详情</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- 物品 2 -->
+            <li class="artifact-card">
+                <div class="card-image item-2">
+                    <span class="tag">瓷器</span>
+                </div>
+                <div class="card-content">
+                    <h3>青花凤穿牡丹纹罐</h3>
+                    <p>元代青花瓷的巅峰之作，色泽浓艳，构图繁而不乱，展现了极高的绘画造诣。</p>
+                    <div class="card-footer">
+                        <span class="period">元代</span>
+                        <a href="#" class="view-btn">查看详情</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- 物品 3 -->
+            <li class="artifact-card">
+                <div class="card-image item-3">
+                    <span class="tag">玉器</span>
+                </div>
+                <div class="card-content">
+                    <h3>翠玉白菜</h3>
+                    <p>清代巧雕杰作，利用翡翠原有的色彩分布，雕琢出白菜的叶脉与鲜活形态。</p>
+                    <div class="card-footer">
+                        <span class="period">清代</span>
+                        <a href="#" class="view-btn">查看详情</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- 物品 4 -->
+            <li class="artifact-card">
+                <div class="card-image item-4">
+                    <span class="tag">金器</span>
+                </div>
+                <div class="card-content">
+                    <h3>金缕玉衣</h3>
+                    <p>汉代最高规格葬服，由数千片玉片经金丝连缀而成，代表了汉代极致的工艺。</p>
+                    <div class="card-footer">
+                        <span class="period">汉代</span>
+                        <a href="#" class="view-btn">查看详情</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="artifact-card">
+                <div class="card-image item-5">
+                    <span class="tag">漆器</span>
+                </div>
+                <div class="card-content">
+                    <h3>剔红花卉纹盘</h3>
+                    <p>明代漆器代表作，层层堆漆后再进行精细雕刻。</p>
+                    <div class="card-footer">
+                        <span class="period">明代</span>
+                        <a href="#" class="view-btn">查看详情</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="artifact-card">
+                <div class="card-image item-6">
+                    <span class="tag">丝绸</span>
+                </div>
+                <div class="card-content">
+                    <h3>五星出东方锦</h3>
+                    <p>汉代蜀锦，印有“五星出东方利中国”字样。</p>
+                    <div class="card-footer">
+                        <span class="period">汉代</span>
+                        <a href="#" class="view-btn">查看详情</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </main>
+
+    <!-- 复用紧凑型 Footer -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-content">
+            <p>© 2025 文物保护专题教育项目 | 传承文化 · 守护历史</p>
+            <div class="footer-tags">
+                <span>#数字化保护</span>
+                <span>#非遗传承</span>
+                <span>#博物馆教育</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

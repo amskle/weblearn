@@ -1,0 +1,85 @@
+:root {
+    --primary-red: #8b1b1b;
+    --gold: #c5a059;
+    --dark: #121212;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #f8f8f8;
+    font-family: 'Noto Serif SC', serif;
+}
+
+/* 导航 */
+.main-header { background: var(--primary-red); padding: 12px 0; }
+.container { width: 90%; max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+.nav-links { list-style: none; display: flex; }
+.nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.9rem; }
+.nav-links a.active { color: var(--gold); }
+
+/* 搜索区 */
+.search-section {
+    padding: 80px 10%;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../images/bei2.jpg') center/cover;
+    text-align: center;
+    color: white;
+}
+.search-section h1 { font-size: 2.5rem; margin-bottom: 15px; letter-spacing: 5px; }
+.search-bar {
+    max-width: 600px; margin: 30px auto;
+    display: flex; gap: 10px;
+}
+.search-bar input { flex: 1; padding: 15px; border: none; font-size: 1rem; }
+.search-bar button { padding: 0 40px; background: var(--gold); border: none; color: white; cursor: pointer; font-weight: bold; }
+
+/* 结果网格 */
+.result-grid {
+    max-width: 1200px; margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px; padding: 0 20px;
+    min-height: 400px;
+}
+
+.initial-msg { grid-column: 1 / -1; text-align: center; color: #999; padding-top: 100px; }
+
+/* 动态生成的卡片样式 */
+.result-card {
+    background: white; border: 1px solid #eee; padding: 20px;
+    transition: 0.3s; cursor: pointer;
+}
+.result-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--gold); }
+.result-card h3 { color: var(--primary-red); margin-bottom: 10px; }
+.result-card .meta { font-size: 0.8rem; color: #888; margin-bottom: 15px; }
+.result-card .btn-detail { color: var(--gold); font-size: 0.9rem; border-bottom: 1px solid var(--gold); }
+
+/* 弹窗样式 */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 1000;
+    display: flex; justify-content: center; align-items: center;
+}
+.modal.hidden { display: none; }
+.modal-content { background: white; padding: 40px; width: 500px; position: relative; border-left: 10px solid var(--primary-red); }
+.close-btn { position: absolute; top: 10px; right: 20px; font-size: 2rem; cursor: pointer; }
+
+/* 骨架屏加载动画示例 */
+.loading { text-align: center; grid-column: 1/-1; }
+.main-footer {
+    background-color: #1a1a1a;
+    color: #888;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.footer-tags {
+    margin-top: 1rem;
+}
+
+.footer-tags span {
+    margin: 0 10px;
+    font-size: 0.8rem;
+    border: 1px solid #444;
+    padding: 2px 8px;
+}

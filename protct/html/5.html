@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面五：数字探秘中心 - 异步编程与综合应用</title>
+    <link rel="stylesheet" href="../css/5.css">
+    <link rel="icon" href="../images/标签_文物保护单位.svg">
+</head>
+<body>
+
+    <!-- 导航栏复用 -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <span class="icon">⛩️</span> 中国文物守护
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="1.html">概览</a></li>
+                    <li><a href="2.html">珍宝馆</a></li>
+                    <li><a href="3.html">修复室</a></li>
+                    <li><a href="4.html">加入我们</a></li>
+                    <li><a href="5.html" class="active">数字探秘</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="discovery-page">
+        <!-- 搜索功能区 -->
+        <section class="search-section">
+            <h1>全球文物数字检索</h1>
+            <p>基于异步 Fetch 技术的跨库资料检索系统</p>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="搜索文物名称、年代或出土地点...">
+                <button id="searchBtn">探索</button>
+            </div>
+        </section>
+
+        <!-- 结果展示区 - 这里的卡片将由 JS 动态生成 -->
+        <section id="resultContainer" class="result-grid">
+            <div class="initial-msg">请输入关键词开启数字化探秘之旅</div>
+        </section>
+
+        <!-- 详情弹窗 (由事件委托触发) -->
+        <div id="modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-content">
+            <p>© 2025 文物保护专题教育项目 | 传承文化 · 守护历史</p>
+            <div class="footer-tags">
+                <span>#数字化保护</span>
+                <span>#非遗传承</span>
+                <span>#博物馆教育</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/5.js"></script>
+</body>
+</html>

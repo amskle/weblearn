@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCharts();
     renderArtifacts(artifacts);
     renderNews();
-    
+
     // 初始化滚动监听器 (Intersection Observer)
     initScrollObserver();
 
@@ -152,7 +152,7 @@ function initScrollObserver() {
     const observerOptions = {
         root: null, // 视口作为根
         threshold: 0.1, // 元素出现 10% 时触发
-        rootMargin: "0px" 
+        rootMargin: "0px"
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -186,7 +186,7 @@ function navigateTo(sectionId) {
         activeSection.classList.remove('hidden');
         // 重置动画 (可选)
         activeSection.classList.remove('fade-in');
-        void activeSection.offsetWidth; 
+        void activeSection.offsetWidth;
         activeSection.classList.add('fade-in');
     }
 
@@ -195,50 +195,94 @@ function navigateTo(sectionId) {
 }
 
 
-// --- 4. 模拟 AI 智能逻辑 (无需联网) ---
 
-function getLocalAIResponse(keyword) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            let responseText = "";
+const GEMINI_API_KEY = "AIzaSyDjyPIP86WxCG33URf7KVpw0kCiIA0S0PU"; 
 
-            if (keyword.includes("四羊方尊")) {
-                responseText = "四羊方尊最神奇的地方在于它的铸造工艺。商代工匠使用'分铸法'，先分别铸好四个羊头，再放入模具与尊身一起浇铸。这种技术在3000多年前简直是黑科技！";
-            } else if (keyword.includes("翠玉白菜")) {
-                responseText = "这棵白菜其实是'变废为宝'的典范。原本这块玉石有白有绿，甚至还有裂纹（就在菜帮位置），工匠巧妙地利用颜色分布，把瑕疵变成了菜叶的自然纹理。";
-            } else if (keyword.includes("青花瓷")) {
-                responseText = "这件青花瓷使用的是进口的'苏麻离青'料，这种颜料含铁量高，烧制后会有自然的黑褐色斑点，行话叫'晕散'，是明代永乐宣德时期青花瓷的典型特征。";
-            } else if (keyword.includes("千里江山")) {
-                responseText = "这幅画的颜色之所以千年不退，是因为用了昂贵的矿物颜料：石青和石绿（就是孔雀石和蓝铜矿磨成的粉）。但也因为颜料层很厚，每次展开都会轻微掉渣，所以极少展出。";
-            } else if (keyword.includes("修复")) {
-                responseText = "这是一个非常专业的文保问题。针对这种情况，如果是青铜器有害锈（粉状锈），我们通常采用物理打磨配合倍半碳酸钠浸泡法；如果是纸张酸化发黄，则需要通过弱碱性溶液进行脱酸处理。";
-            } else {
-                responseText = "这是一件非常珍贵的文物。通过现代数字扫描技术，我们建立它的高精度三维模型，哪怕它由于岁月侵蚀发生微小变化，我们也能第一时间监测到。";
-            }
-            
-            resolve(responseText);
-        }, 1000); 
-    });
+// 核心函数：尝试调用真 AI，失败则用假 AI
+async function getLocalAIResponse(keyword) {
+    // 1. 定义提示词 (Prompt)
+    let prompt = "";
+    // 如果关键词是“修复”，说明是在问技术问题
+    if (keyword === "修复") {
+        const userQuestion = document.getElementById('ai-tech-input').value;
+        prompt = `你是一位资深的文物修复专家。用户问：“${userQuestion}”。请用专业但通俗的语言简短回答（100字以内）。`;
+    } else {
+        // 否则是在问文物导览
+        prompt = `你是一位博物馆金牌导览员。请为观众介绍文物“${keyword}”。用生动有趣的语言，包含历史背景和艺术价值，字数控制在100字以内。`;
+    }
+
+    // 2. 尝试调用 Gemini API
+    try {
+        // 如果没有填 Key，直接抛出错误，进入本地模式
+        // if (!GEMINI_API_KEY || GEMINI_API_KEY.includes('')) {
+        //     throw new Error("API Key 未配置");
+        // }
+
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: prompt }]
+                }]
+            })
+        });
+
+        if (!response.ok) throw new Error("网络请求失败");
+
+        const data = await response.json();
+        const aiText = data.candidates[0].content.parts[0].text;
+        
+        // 成功拿到真 AI 的回复！
+        return aiText;
+
+    } catch (error) {
+        console.warn("Gemini 调用失败，自动切换回本地预设模式:", error);
+        
+        // --- 3. 降级处理：本地预设回复 (兜底方案) ---
+        // 模拟 1 秒延迟，保持体验一致
+        return new Promise(resolve => {
+            setTimeout(() => {
+                let responseText = "";
+                if (keyword.includes("四羊方尊")) {
+                    responseText = "（本地模式）四羊方尊最神奇的地方在于它的铸造工艺。商代工匠使用'分铸法'，先分别铸好四个羊头，再放入模具与尊身一起浇铸。这种技术在3000多年前简直是黑科技！";
+                } else if (keyword.includes("翠玉白菜")) {
+                    responseText = "（本地模式）这棵白菜其实是'变废为宝'的典范。工匠巧妙地利用颜色分布，把瑕疵变成了菜叶的自然纹理。";
+                } else if (keyword === "修复") {
+                    responseText = "（本地模式）针对这种情况，如果是青铜器有害锈（粉状锈），我们通常采用物理打磨配合倍半碳酸钠浸泡法；如果是纸张酸化发黄，则需要通过弱碱性溶液进行脱酸处理。";
+                } else {
+                    responseText = "（本地模式）这是一件非常珍贵的文物。通过现代数字扫描技术，我们建立它的高精度三维模型，哪怕它由于岁月侵蚀发生微小变化，我们也能第一时间监测到。";
+                }
+                resolve(responseText);
+            }, 1000);
+        });
+    }
 }
-
-// 文物导览 AI
+// 2. 文物导览 AI (注意：这里加了 async)
 async function generateAIStory(name, period, btn) {
     const outputDiv = btn.nextElementSibling;
     const originalText = btn.innerHTML;
 
+    // 设置加载状态
     btn.disabled = true;
     btn.innerHTML = `<span class="spinner"></span> 正在查找资料...`;
     outputDiv.classList.add('hidden');
 
-    const result = await getLocalAIResponse(name); 
+    // 等待 AI 回复 (这里用了 await，所以函数前面必须加 async)
+    const result = await getLocalAIResponse(name);
 
+    // 恢复按钮并显示结果
     btn.innerHTML = originalText;
     btn.disabled = false;
     outputDiv.innerHTML = `<strong>✨ 导览员解说：</strong><br>${result}`;
     outputDiv.classList.remove('hidden');
 }
 
-// 技术顾问 AI
+// 3. 技术顾问 AI (注意：这里也加了 async)
 async function askRestorationAI() {
     const input = document.getElementById('ai-tech-input');
     const output = document.getElementById('ai-tech-output');
@@ -255,7 +299,8 @@ async function askRestorationAI() {
     btn.innerHTML = `<span class="spinner"></span> 查询专家库...`;
     output.classList.add('hidden');
 
-    const result = await getLocalAIResponse("修复"); 
+    // 等待 AI 回复 (使用 await)
+    const result = await getLocalAIResponse("修复");
 
     btn.innerHTML = originalBtnText;
     btn.disabled = false;
@@ -273,10 +318,10 @@ function renderArtifacts(data) {
     data.forEach((item, index) => {
         const card = document.createElement('div');
         // 添加 scroll-hidden 类，并设置延迟，实现错落出现的动画效果
-        card.className = "artifact-card scroll-hidden"; 
-        card.style.transitionDelay = `${index * 0.1}s`; 
+        card.className = "artifact-card scroll-hidden";
+        card.style.transitionDelay = `${index * 0.1}s`;
         card.onclick = () => openModal(item);
-        
+
         card.innerHTML = `
             <div class="card-img-wrapper">
                 <img src="${item.image}" alt="${item.name}" class="card-img">
@@ -296,7 +341,7 @@ function renderArtifacts(data) {
         `;
         grid.appendChild(card);
     });
-    
+
     // 渲染后立即触发一次观察，确保新元素被监听
     initScrollObserver();
 }
@@ -304,7 +349,7 @@ function renderArtifacts(data) {
 function filterArtifacts(category) {
     const buttons = document.querySelectorAll('.filter-btn');
     buttons.forEach(btn => {
-        if(btn.dataset.filter === category) {
+        if (btn.dataset.filter === category) {
             btn.classList.add('active');
         } else {
             btn.classList.remove('active');
@@ -335,7 +380,7 @@ function getCategoryName(cat) {
 function openModal(item) {
     const modal = document.getElementById('modal-overlay');
     const content = document.getElementById('modal-content');
-    
+
     content.innerHTML = `
         <button onclick="closeModal()" class="close-modal-btn">✕</button>
         <div class="modal-img-area">
@@ -368,7 +413,7 @@ function openModal(item) {
             </div>
         </div>
     `;
-    
+
     modal.classList.remove('hidden');
 }
 
@@ -383,13 +428,13 @@ function closeModal() {
 function renderNews() {
     const container = document.getElementById('news-container');
     container.innerHTML = '';
-    
+
     newsData.forEach((item, index) => {
         const article = document.createElement('div');
         // 使用时间轴类名，并添加滚动显现
         article.className = "timeline-item scroll-hidden";
         article.style.transitionDelay = `${index * 0.2}s`;
-        
+
         article.innerHTML = `
             <div class="timeline-date">${item.date}</div>
             <div class="timeline-title" onclick="toggleNews(${item.id})">${item.title}</div>

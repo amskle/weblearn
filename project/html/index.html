@@ -133,52 +133,67 @@
                     </div>
                 </div>
 
-                <!-- 第二行：可行动图表 (左图右文) -->
+                <!-- 第二行：可行动图表 (左右平衡布局) -->
                 <div class="dashboard-grid-main">
-                    <!-- 左侧：图表 -->
-                    <div class="card scroll-hidden" style="padding: 20px;">
-                        <div class="flex-row" style="margin-bottom: 15px;">
-                            <h4>文物健康指数分布</h4>
+                    <!-- 左侧：图表卡片 -->
+                    <div class="chart-card-box scroll-hidden">
+                        <div class="flex-row" style="margin-bottom: 10px;">
+                            <div>
+                                <h4 style="font-size: 1.1rem; font-weight: bold;">文物健康指数分布</h4>
+                                <p style="font-size: 0.8rem; color: var(--text-light);">实时监测馆藏文物物理状态</p>
+                            </div>
+                            <!-- 一个假的下拉菜单 -->
                             <select
-                                style="padding: 5px; border: 1px solid var(--gray-200); border-radius: 4px; font-size: 0.8rem;">
-                                <option>全部分类</option>
-                                <option>青铜器</option>
-                                <option>书画</option>
+                                style="padding: 6px 10px; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.85rem; outline: none; background: var(--gray-100);">
+                                <option>全馆统计</option>
+                                <option>一号库房</option>
+                                <option>二号展厅</option>
                             </select>
                         </div>
-                        <div class="chart-container" style="height: 300px;">
+
+                        <!-- 图表容器：高度被 CSS 锁定 -->
+                        <div class="chart-inner-box">
                             <canvas id="preservationChart"></canvas>
                         </div>
                     </div>
 
-                    <!-- 右侧：决策分析 (Insight) -->
+                    <!-- 右侧：智能诊断报告 -->
                     <div class="analysis-card scroll-hidden" style="transition-delay: 0.2s;">
-                        <div class="analysis-title">智能诊断报告</div>
+                        <div class="analysis-title">🛡 智能诊断与决策建议</div>
 
                         <div class="insight-box">
                             <p class="insight-text">
-                                <span class="insight-highlight">⚠ 预警：</span>
-                                当前轻微破损文物占比偏高，主要集中在露天石刻与南方潮湿区域的纸质文物。建议加强库房恒温湿系统升级。
+                                <span class="insight-highlight">⚠ 重点关注：</span>
+                                本周数据显示，<span style="border-bottom: 2px solid #fcd34d;">轻微破损 (需保养)</span> 比例上升
+                                <strong>2.5%</strong>。主要集中在书画类文物的边缘酸化现象。
                             </p>
                         </div>
 
-                        <div class="analysis-title">待办优先级</div>
-                        <ul class="action-list">
-                            <li>
-                                <span>一级濒危文物抢救</span>
-                                <span class="action-val" style="color: #dc2626;">12 件</span>
-                            </li>
-                            <li>
-                                <span>即将到期的外借展览</span>
-                                <span class="action-val">3 场</span>
-                            </li>
-                            <li>
-                                <span>库房环境异常警报</span>
-                                <span class="action-val">0 次</span>
-                            </li>
-                        </ul>
+                        <div style="margin-top: 10px;">
+                            <div
+                                style="font-size: 0.9rem; font-weight: bold; margin-bottom: 10px; color: var(--secondary);">
+                                待办任务优先级：</div>
+                            <ul class="action-list">
+                                <li>
+                                    <span style="display: flex; align-items: center;"><span
+                                            style="width: 8px; height: 8px; background: #ef4444; border-radius: 50%; margin-right: 8px;"></span>濒危文物抢救</span>
+                                    <span class="action-val" style="color: #dc2626;">12 件</span>
+                                </li>
+                                <li>
+                                    <span style="display: flex; align-items: center;"><span
+                                            style="width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; margin-right: 8px;"></span>即将到期外展</span>
+                                    <span class="action-val">3 场</span>
+                                </li>
+                                <li>
+                                    <span style="display: flex; align-items: center;"><span
+                                            style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; margin-right: 8px;"></span>环境异常警报</span>
+                                    <span class="action-val">0 次</span>
+                                </li>
+                            </ul>
+                        </div>
 
-                        <button class="btn btn-primary" style="margin-top: 20px; width: 100%; font-size: 0.9rem;">
+                        <button class="btn btn-primary"
+                            style="margin-top: auto; width: 100%; font-size: 0.9rem; padding: 12px;">
                             生成详细修复方案 &rarr;
                         </button>
                     </div>

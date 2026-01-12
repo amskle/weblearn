@@ -74,7 +74,6 @@ h1, h2, h3, h4, .font-serif {
     }
 }
 
-/* --- 新增：滚动显现动画 (Scroll Reveal) --- */
 /* 初始状态：透明且向下偏移 */
 .scroll-hidden {
     opacity: 0;

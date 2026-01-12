@@ -5,16 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中华文物数字保护平台 | Digital Heritage</title>
-
-    <!-- 引入 Chart.js -->
     <script src="../js/chart.js"></script>
     <link rel="icon" href="../images/temple.png">
-    <!-- 引入 Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap"
-        rel="stylesheet">
     <script src="../js/tail.js"></script>
-    <!-- 引入拆分后的 CSS 文件 -->
+
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/components.css">
@@ -50,12 +44,10 @@
     <!-- 主内容区域 -->
     <main id="app-content">
 
-        <!-- 1. 首页 -->
         <section id="home" class="page-section fade-in">
-            <!-- Banner -->
+            <!-- banner -->
             <div class="hero-banner">
                 <img src="../images/back.jpg" alt="Architecture" class="hero-img">
-                <!-- 添加 scroll-hidden 实现滚动显现 -->
                 <div class="hero-content scroll-hidden">
                     <h2 class="hero-title">守护历史，传承文明</h2>
                     <p class="hero-subtitle">利用现代科技手段，数字化保存、修复和展示中华文明的瑰宝。</p>
@@ -63,41 +55,253 @@
                 </div>
             </div>
 
-            <!-- 仪表盘 -->
             <div class="container py-section">
-                <div class="mb-large scroll-hidden" style="text-align: center;">
-                    <h3>当前保护概况</h3>
-                    <p style="color: var(--text-light);">数字化建档与修复进度概览。</p>
+                <!-- 顶部标题区 -->
+                <div class="flex-row mb-large scroll-hidden">
+                    <div>
+                        <h3 style="margin-bottom: 5px;">保护概况驾驶舱</h3>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">数据更新时间：2024-06-12 14:30:00</p>
+                    </div>
+                    <!-- 添加一个模拟的“导出报告”按钮，增加后台感 -->
+                    <button class="filter-btn" style="border-radius: 4px;">⬇ 导出月度报表</button>
                 </div>
 
-                <div class="grid-2">
-                    <!-- 统计数据 -->
-                    <div class="grid-2" style="align-content: start;">
-                        <!-- 添加 scroll-hidden -->
-                        <div class="stat-card primary scroll-hidden">
-                            <div class="stat-num" style="color: var(--primary);">5,200+</div>
-                            <div class="stat-label">已建档文物</div>
+                <!-- 第一行：趋势数据卡片 (4列) -->
+                <div class="grid-4">
+                    <!-- 卡片 1 -->
+                    <div class="stat-card scroll-hidden">
+                        <div class="stat-header">
+                            <span class="stat-label">馆藏文物总量</span>
+                            <span class="stat-icon">📦</span>
                         </div>
-                        <div class="stat-card accent scroll-hidden" style="transition-delay: 0.1s;">
-                            <div class="stat-num" style="color: var(--accent);">128</div>
-                            <div class="stat-label">正在修复</div>
+                        <div class="stat-main">
+                            <span class="stat-num">5,248</span>
+                            <span class="stat-unit">件</span>
                         </div>
-                        <div class="stat-card secondary scroll-hidden" style="transition-delay: 0.2s;">
-                            <div class="stat-num" style="color: var(--secondary);">98%</div>
-                            <div class="stat-label">完好保存率</div>
-                        </div>
-                        <div class="stat-card scroll-hidden" style="transition-delay: 0.3s;">
-                            <div class="stat-num" style="color: var(--text-main);">350万</div>
-                            <div class="stat-label">线上访问人次</div>
+                        <div class="stat-footer">
+                            <span class="trend-badge trend-up">📈 +12%</span>
+                            <span>本年度新增建档</span>
                         </div>
                     </div>
 
-                    <!-- 图表 -->
-                    <div class="card scroll-hidden" style="transition-delay: 0.4s;">
-                        <h4 style="text-align: center; margin-bottom: 20px;">文物完好度分布</h4>
-                        <div class="chart-container">
+                    <!-- 卡片 2 -->
+                    <div class="stat-card scroll-hidden" style="transition-delay: 0.1s;">
+                        <div class="stat-header">
+                            <span class="stat-label">正在修复</span>
+                            <span class="stat-icon">🔧</span>
+                        </div>
+                        <div class="stat-main">
+                            <span class="stat-num">128</span>
+                            <span class="stat-unit">项目</span>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="trend-badge trend-flat">➡ 持平</span>
+                            <span>本月完成修复 23 件</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 3：风险预警 (重点高亮) -->
+                    <div class="stat-card scroll-hidden" style="transition-delay: 0.2s; border-color: #fca5a5;">
+                        <div class="stat-header">
+                            <span class="stat-label" style="color: #dc2626;">高风险文物</span>
+                            <span class="stat-icon">⚠</span>
+                        </div>
+                        <div class="stat-main">
+                            <span class="stat-num" style="color: #dc2626;">317</span>
+                            <span class="stat-unit">件</span>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="trend-badge trend-down">🔻 +5</span>
+                            <span style="color: #dc2626;">急需介入处理</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 4 -->
+                    <div class="stat-card scroll-hidden" style="transition-delay: 0.3s;">
+                        <div class="stat-header">
+                            <span class="stat-label">公众访问热度</span>
+                            <span class="stat-icon">👁</span>
+                        </div>
+                        <div class="stat-main">
+                            <span class="stat-num">350</span>
+                            <span class="stat-unit">次</span>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="trend-badge trend-up">🔥 +18%</span>
+                            <span>云展览点击率飙升</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二行：可行动图表 (左图右文) -->
+                <div class="dashboard-grid-main">
+                    <!-- 左侧：图表 -->
+                    <div class="card scroll-hidden" style="padding: 20px;">
+                        <div class="flex-row" style="margin-bottom: 15px;">
+                            <h4>文物健康指数分布</h4>
+                            <select
+                                style="padding: 5px; border: 1px solid var(--gray-200); border-radius: 4px; font-size: 0.8rem;">
+                                <option>全部分类</option>
+                                <option>青铜器</option>
+                                <option>书画</option>
+                            </select>
+                        </div>
+                        <div class="chart-container" style="height: 300px;">
                             <canvas id="preservationChart"></canvas>
                         </div>
+                    </div>
+
+                    <!-- 右侧：决策分析 (Insight) -->
+                    <div class="analysis-card scroll-hidden" style="transition-delay: 0.2s;">
+                        <div class="analysis-title">智能诊断报告</div>
+
+                        <div class="insight-box">
+                            <p class="insight-text">
+                                <span class="insight-highlight">⚠ 预警：</span>
+                                当前轻微破损文物占比偏高，主要集中在露天石刻与南方潮湿区域的纸质文物。建议加强库房恒温湿系统升级。
+                            </p>
+                        </div>
+
+                        <div class="analysis-title">待办优先级</div>
+                        <ul class="action-list">
+                            <li>
+                                <span>一级濒危文物抢救</span>
+                                <span class="action-val" style="color: #dc2626;">12 件</span>
+                            </li>
+                            <li>
+                                <span>即将到期的外借展览</span>
+                                <span class="action-val">3 场</span>
+                            </li>
+                            <li>
+                                <span>库房环境异常警报</span>
+                                <span class="action-val">0 次</span>
+                            </li>
+                        </ul>
+
+                        <button class="btn btn-primary" style="margin-top: 20px; width: 100%; font-size: 0.9rem;">
+                            生成详细修复方案 &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 第三行：系统中枢快捷入口 (System Shortcuts) -->
+                <div class="shortcut-grid scroll-hidden">
+                    <div class="shortcut-btn">
+                        <span class="shortcut-icon">🗺</span>
+                        <span>文物分布地图</span>
+                    </div>
+                    <div class="shortcut-btn">
+                        <span class="shortcut-icon">📋</span>
+                        <span>修复项目管理</span>
+                    </div>
+                    <div class="shortcut-btn">
+                        <span class="shortcut-icon">🛡</span>
+                        <span>风险预警中心</span>
+                    </div>
+                    <div class="shortcut-btn">
+                        <span class="shortcut-icon">💾</span>
+                        <span>数据归档库</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 板块二：保护现状 (新增 - 左文右图) -->
+            <div class="py-section" style="background-color: var(--white);">
+                <div class="container">
+                    <div class="feature-row scroll-hidden">
+                        <div class="feature-text">
+                            <h3 style="font-size: 2rem; margin-bottom: 20px;">从“抢救性”向“预防性”跨越</h3>
+                            <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 20px;">
+                                随着《“十四五”文物保护和科技创新规划》的深入实施，我国文物保护工作已进入精准化、数字化的新阶段。我们不再仅仅关注破损后的修复，更注重通过环境监测、数字化扫描等手段，防患于未然。
+                            </p>
+                            <ul class="feature-list">
+                                <li><strong>全流程数字化监测：</strong> 对石窟、壁画温度、湿度进行24小时监控。</li>
+                                <li><strong>AI 病害识别：</strong> 利用图像识别技术自动标记文物表面的细微裂纹。</li>
+                                <li><strong>云端数据共享：</strong> 打破信息孤岛，实现全国文物数据互联互通。</li>
+                            </ul>
+                        </div>
+                        <div class="feature-img-box">
+                            <!-- 使用一张古建筑或科技感的图片 -->
+                            <img src="../images/xiufu.jpg" alt="预防性保护" class="feature-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 板块三：考古新发现 (新增 - 卡片网格) -->
+            <div class="py-section" style="background-color: var(--gray-100);">
+                <div class="container">
+                    <div class="home-section-title scroll-hidden">
+                        <h3>考古新发现</h3>
+                        <p>唤醒沉睡千年的文明记忆</p>
+                    </div>
+
+                    <div class="discovery-grid">
+                        <!-- 卡片 1 -->
+                        <div class="discovery-card scroll-hidden">
+                            <img src="../images/mianju.jpg" alt="三星堆" class="discovery-img">
+                            <div class="discovery-info">
+                                <h4>三星堆祭祀坑</h4>
+                                <p>出土金面具残片，改写古蜀文明认知。</p>
+                                <a href="https://chiculture.org.hk/index.php/sc/china-five-thousand-years/4381"
+                                    class="detail">详情</a>
+                            </div>
+                        </div>
+                        <!-- 卡片 2 -->
+                        <div class="discovery-card scroll-hidden" style="transition-delay: 0.2s;">
+                            <img src="../images/ship.jpeg" alt="水下考古" class="discovery-img">
+                            <div class="discovery-info">
+                                <h4>长江口二号古船</h4>
+                                <p>水下考古重大突破，完整打捞清代沉船。</p>
+                                <a href="https://baike.baidu.com/item/%E9%95%BF%E6%B1%9F%E5%8F%A3%E4%BA%8C%E5%8F%B7%E5%8F%A4%E8%88%B9/61294061"
+                                    class="detail">详情</a>
+                            </div>
+                        </div>
+                        <!-- 卡片 3 -->
+                        <div class="discovery-card scroll-hidden" style="transition-delay: 0.4s;">
+                            <img src="../images/bei.jpg" alt="敦煌遗书" class="discovery-img">
+                            <div class="discovery-info">
+                                <h4>北京新宫遗址</h4>
+                                <p>考古发掘取得重要进展，揭示古代宫苑建筑新面貌。</p>
+                                <a href="https://baike.baidu.com/item/%E6%96%B0%E5%AE%AB%E9%81%97%E5%9D%80/63045444"
+                                    class="detail">详情</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 板块四：修复工艺流程 (新增 - 步骤条) -->
+            <div class="container py-section">
+                <div class="home-section-title scroll-hidden">
+                    <h3>精湛修复工艺</h3>
+                    <p>传统匠心与现代科技的完美融合</p>
+                </div>
+
+                <div class="process-container scroll-hidden">
+                    <!-- 步骤 1 -->
+                    <div class="process-step">
+                        <div class="process-icon-box">🔍</div>
+                        <h4 class="process-title">无损检测</h4>
+                        <p class="process-desc">X光探伤与多光谱分析</p>
+                    </div>
+                    <!-- 步骤 2 -->
+                    <div class="process-step">
+                        <div class="process-icon-box">🧹</div>
+                        <h4 class="process-title">清理除锈</h4>
+                        <p class="process-desc">物理打磨与化学试剂结合</p>
+                    </div>
+                    <!-- 步骤 3 -->
+                    <div class="process-step">
+                        <div class="process-icon-box">🧩</div>
+                        <h4 class="process-title">拼接补配</h4>
+                        <p class="process-desc">AI 辅助碎片拼对与3D打印</p>
+                    </div>
+                    <!-- 步骤 4 -->
+                    <div class="process-step">
+                        <div class="process-icon-box">🎨</div>
+                        <h4 class="process-title">随色封护</h4>
+                        <p class="process-desc">矿物颜料全色与表面封层</p>
                     </div>
                 </div>
             </div>
@@ -209,8 +413,7 @@
                 <div class="contact-layout scroll-hidden">
                     <div class="contact-info">
                         <h3 style="color: white; margin-bottom: 20px;">联系我们</h3>
-                        <p style="margin-bottom: 10px;">📍 北京市东城区文博路8号</p>
-                        <p>📧 contact@digitalheritage.cn</p>
+                        <p>📧 邮箱： dgq2061133513gmail.com</p>
                     </div>
                     <div class="contact-form">
                         <form id="contactForm" onsubmit="handleContactSubmit(event)">
@@ -245,18 +448,19 @@
                 <div class="footer-col">
                     <h4 class="footer-title">探索发现</h4>
                     <ul class="footer-links">
-                        <li><a href="#">数字展厅</a></li>
-                        <li><a href="#">文创周边</a></li>
-                        <li><a href="#">历史时间轴</a></li>
+                        <li><a href="https://www.chnmuseum.cn/portals/0/web/vr/">数字展厅</a></li>
+                        <li><a href="https://www.xcmg.com/aftermarket/wenchuang.htm">文创周边</a></li>
+                        <li><a href="http://www.ncha.gov.cn/art/2024/9/27/art_722_191496.html">历史时间轴</a></li>
                     </ul>
                 </div>
                 <!-- 第三列：资源 -->
                 <div class="footer-col">
                     <h4 class="footer-title">学术资源</h4>
                     <ul class="footer-links">
-                        <li><a href="#">修复报告下载</a></li>
-                        <li><a href="#">3D 模型库</a></li>
-                        <li><a href="#">API 开放平台</a></li>
+                        <li><a
+                                href="https://kns.cnki.net/kns8s/defaultresult/index?crossids=YSTT4HG0%2CLSTPFY1C%2CJUP3MUPD%2CMPMFIG1A%2CWQ0UVIAA%2CBLZOG7CK%2CPWFIRAGL%2CEMRPGLPA%2CNLBO1Z6R%2CNN3FJMUV&korder=SU&kw=%E6%96%87%E7%89%A9%E4%BF%AE%E5%A4%8D">修复报告相关文献</a>
+                        </li>
+                        <li><a href="https://theme.npm.edu.tw/3d/List.aspx?l=1">3D 模型库</a></li>
                     </ul>
                 </div>
                 <!-- 第四列：关注 -->
@@ -271,7 +475,7 @@
             </div>
             <div class="footer-bottom">
                 <p>云端博物 · 历史在指尖流淌</p>
-                <p style="font-size: 0.8rem; margin-top: 5px;">© 2024 文物保护 Web 前端课程设计小组. All rights reserved.</p>
+                <p style="font-size: 0.8rem; margin-top: 5px;">© 2024 文物保护 Web 前端课程设计小组.</p>
             </div>
         </footer>
 

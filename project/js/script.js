@@ -196,7 +196,7 @@ function navigateTo(sectionId) {
 
 
 
-const GEMINI_API_KEY = "AIzaSyDjyPIP86WxCG33URf7KVpw0kCiIA0S0PU"; 
+const GEMINI_API_KEY = window.GEMINI_API_KEY;
 
 // 核心函数：尝试调用真 AI，失败则用假 AI
 async function getLocalAIResponse(keyword) {
